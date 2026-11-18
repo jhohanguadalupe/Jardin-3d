@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
 export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim}) {
+  const collisionWalls=[];
   const stucco=mat('#d8cfbd',.92), wall=mat('#d4c7ae',.9), cap=mat('#e2d7bf',.82), darkWood=mat('#795f48',.82), timber=mat('#a98255',.78), glass=new THREE.MeshPhysicalMaterial({color:'#a8c7c7',roughness:.16,transparent:true,opacity:.34,transmission:.12,clearcoat:.8}), metal=mat('#51594f',.48,{metalness:.48});
   const floorClass=mat('#bcb5a6'), tile=mat('#c7c3b8'), rubber=mat('#756a5c'), lawn=grass;
-  const addWall=(x1,z1,x2,z2,h=2.8,t=.18,m=wall,y0=0)=>{const dx=x2-x1,dz=z2-z1,len=Math.hypot(dx,dz),w=box(scene,(x1+x2)/2,y0+h/2,(z1+z2)/2,len,h,t,m);w.rotation.y=-Math.atan2(dz,dx);return w;};
+  const addWall=(x1,z1,x2,z2,h=2.8,t=.18,m=wall,y0=0)=>{const dx=x2-x1,dz=z2-z1,len=Math.hypot(dx,dz),w=box(scene,(x1+x2)/2,y0+h/2,(z1+z2)/2,len,h,t,m);w.rotation.y=-Math.atan2(dz,dx);collisionWalls.push({x1,z1,x2,z2,thickness:t});return w;};
   const floor=(x,z,w,d,m=tile,y=.08)=>box(scene,x,y,z,w,.16,d,m,false,true);
   const windowWall=(x1,z1,x2,z2)=>{addWall(x1,z1,x2,z2,.98,.18,wall,0);addWall(x1,z1,x2,z2,.42,.18,wall,2.36);addWall(x1,z1,x2,z2,1.28,.07,glass, .98);};
   const door=(x,z,angle=0,material=darkWood)=>{const g=new THREE.Group();g.position.set(x,.06,z);g.rotation.y=angle;scene.add(g);box(g,.48,1.08,0,.92,2.08,.12,material);box(g,.84,1.08,.085,.07,.07,.035,mat('#c6a56a',.35,{metalness:.65}));return g;};
@@ -96,5 +97,6 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   function addShrub(x,z,s=1,flower=false){const g=new THREE.Group();g.position.set(x,.2,z);g.scale.setScalar(s);scene.add(g);for(let i=0;i<7;i++){const a=i*2.4,r=.1+Math.random()*.2,m=new THREE.Mesh(new THREE.SphereGeometry(.22+Math.random()*.1,8,7),mat(['#526f43','#66864d','#789354','#425f3e'][i%4],.92));m.position.set(Math.cos(a)*r,.16+Math.random()*.19,Math.sin(a)*r);m.scale.y=.72;m.castShadow=true;g.add(m);}if(flower)for(let i=0;i<3;i++){const f=new THREE.Mesh(new THREE.SphereGeometry(.05,7,6),mat(i%2?'#e6d5ae':'#d8aaa2'));f.position.set((i-1)*.14,.4,.08);g.add(f);}return g;}
   function addTree(x,z,s=1){const g=new THREE.Group();g.position.set(x,.18,z);g.scale.setScalar(s);scene.add(g);cylinder(g,0,1.45,0,.16,.23,2.9,mat('#62503d'),10);for(let i=0;i<20;i++){const a=Math.random()*Math.PI*2,u=Math.random()*2-1,r=Math.sqrt(1-u*u),leaf=new THREE.Mesh(new THREE.IcosahedronGeometry(.48+Math.random()*.35,1),mat(['#526f43','#66864d','#789354','#425f3e','#899b59'][i%5],.9));leaf.position.set(Math.cos(a)*r*.9,2.5+u*.8,Math.sin(a)*r*.75);leaf.scale.y=.82;leaf.castShadow=true;g.add(leaf);}return g;}
   function floorArrow(x,z,yaw){const shape=new THREE.Shape();shape.moveTo(.38,0);shape.lineTo(-.12,.31);shape.lineTo(-.12,.16);shape.lineTo(-.42,.16);shape.lineTo(-.42,-.16);shape.lineTo(-.12,-.16);shape.lineTo(-.12,-.31);shape.closePath();const m=new THREE.Mesh(new THREE.ShapeGeometry(shape),mat('#f3f0e5'));m.rotation.x=-Math.PI/2;m.rotation.z=yaw;m.position.set(x,.23,z);scene.add(m);}
+  return {collisionWalls};
 }
 

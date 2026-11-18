@@ -14,8 +14,8 @@ Luego abre <http://localhost:8000>. Three.js se carga desde jsDelivr, por lo que
 
 ## Recorrido
 
-- Arrastra para mirar, usa la rueda para acercar o alejar y pulsa **WASD** o las flechas para moverte.
+- Arrastra para mirar y usa la rueda para acercar o alejar. Pulsa **WASD** o las flechas para mover la cámara; activa **Controlar al niño** para pasear con él.
 - El menú inferior ofrece vistas del ingreso, el bloque central, los juegos y patio, las áreas verdes, las aulas del fondo y una vista aérea.
-- **Seguir al niño** acompaña a un alumno articulado que recorre las rutas del colegio; **Pausar paseo** detiene o reanuda su caminata.
+- **Seguir al niño** acompaña a un alumno articulado que recorre las rutas del colegio; **Controlar al niño** permite dirigirlo con WASD o las flechas; **Pausar paseo** detiene o reanuda el recorrido automático.
 - **Ocultar nombres** alterna los rótulos blancos flotantes de las áreas.
 - El botón de sonido activa un ambiente suave y el control de pantalla completa amplía la escena.
