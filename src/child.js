@@ -32,5 +32,9 @@ export function createChildCharacter(){
   }
   const leftLeg=limb(-.075,0,'leg'),rightLeg=limb(.075,1,'leg');
   const leftArm=limb(-.22,0,'arm'),rightArm=limb(.22,1,'arm');
+  const nameCanvas=document.createElement('canvas');nameCanvas.width=512;nameCanvas.height=128;const nameCtx=nameCanvas.getContext('2d');
+  nameCtx.textAlign='center';nameCtx.textBaseline='middle';nameCtx.font='700 76px "DM Sans",Arial,sans-serif';nameCtx.lineWidth=9;nameCtx.strokeStyle='rgba(19,30,22,.82)';nameCtx.strokeText('Marino',256,64);nameCtx.fillStyle='#fffdf4';nameCtx.fillText('Marino',256,64);
+  const nameTexture=new THREE.CanvasTexture(nameCanvas);nameTexture.colorSpace=THREE.SRGBColorSpace;
+  const nameTag=new THREE.Sprite(new THREE.SpriteMaterial({map:nameTexture,transparent:true,depthWrite:false}));nameTag.position.set(0,1.78,0);nameTag.scale.set(.92,.23,1);root.add(nameTag);
   return {root,hips,torso,headGroup,leftLeg,rightLeg,leftArm,rightArm};
 }
