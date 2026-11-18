@@ -72,7 +72,8 @@ function collidesWithWall(x,z){
 }
 function updateControlledChild(dt){
   manualMoving=false;if(!controlled)return;
-  const forward=new THREE.Vector3();camera.getWorldDirection(forward);forward.y=0;forward.normalize();const right=new THREE.Vector3().crossVectors(forward,camera.up).normalize();
+  // Movement is relative to the child's own heading, so "forward" never sends him backwards when the camera orbits.
+  const forward=childForward.clone().normalize(),right=new THREE.Vector3().crossVectors(forward,camera.up).normalize();
   const move=new THREE.Vector3();if(keys.has('KeyW')||keys.has('ArrowUp'))move.add(forward);if(keys.has('KeyS')||keys.has('ArrowDown'))move.sub(forward);if(keys.has('KeyD')||keys.has('ArrowRight'))move.add(right);if(keys.has('KeyA')||keys.has('ArrowLeft'))move.sub(right);
   if(move.lengthSq()<.001)return;move.normalize();const sprinting=keys.has('ShiftLeft')||keys.has('ShiftRight');const step=move.multiplyScalar(dt*(sprinting?4.4:2.2)),p=child.root.position;
   let nx=p.x+step.x,nz=p.z+step.z;
