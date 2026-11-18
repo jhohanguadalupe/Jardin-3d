@@ -62,7 +62,9 @@ box(scene,7.05,.22,4,12.1,.12,10.5,grassMat,false,true);
 // The playable lawn is a short maintained turf, represented by a layered color and fine relief texture.
 // Slim coping around the lawn and a path that connects patio and play lawn.
 box(scene,.95,.31,4,.18,.35,10.8,wallTop); box(scene,13.12,.31,4,.18,.35,10.8,wallTop);
-box(scene,7.05,.31,-1.4,12.2,.35,.18,wallTop); box(scene,7.05,.31,9.37,12.2,.35,.18,wallTop);
+// Leave a clear opening in the play-lawn curb for the stair approach.
+box(scene,3.40,.31,-1.4,4.9,.35,.18,wallTop);box(scene,9.95,.31,-1.4,6.4,.35,.18,wallTop);
+box(scene,7.05,.31,9.37,12.2,.35,.18,wallTop);
 for(let z=-1.25;z<=1.25;z+=.42){box(scene,.8,.3,z,.6,.08,.38,stoneLight,false,true);}
 
 // Open-roof cutaway rooms retain every wall while allowing the plan to be read.
@@ -191,9 +193,9 @@ box(scene,4.7,1.55,1.1,2.4,.2,2.45,playWoodLight);
 // Keep the west rail closed; the east rail has a gate-sized opening onto the side walkway.
 box(scene,3.65,2.03,1.1,.12,.82,2.15,playWood);
 box(scene,5.75,2.03,.56,.12,.82,1.02,playWood);box(scene,5.75,2.03,2.02,.12,.82,.26,playWood);
-// Front rail stays intact; a centered opening on the rear receives the stair landing.
+// Close the rear rail; access now uses the safer outside stair and side catwalk.
 box(scene,4.7,2.05,2.13,2.05,.78,.1,playWood);
-box(scene,4.0,2.05,.08,.55,.78,.1,playWood);box(scene,5.4,2.05,.08,.55,.78,.1,playWood);
+box(scene,4.7,2.05,.08,2.05,.78,.1,playWood);
 // Joined gable canopy: both slopes rise into a capped ridge and rest on the posts.
 for(const side of [-1,1]){
  const roofAngle=-side*.36;
@@ -207,15 +209,14 @@ for(const x of [3.65,5.75])for(const z of [.05,2.15]){
  const bolt=new THREE.Mesh(new THREE.SphereGeometry(.035,8,6),mat('#b8945c',.32,{metalness:.62}));bolt.position.set(x,2.42,z+.09);scene.add(bolt);
 }
 box(scene,4.7,3.24,1.1,.17,.16,2.85,playWoodLight);
-// Rear stair climbs to the playhouse, leaving the front and slide runout open.
-for(let i=0;i<7;i++){const z=-2.45+i*.34,y=.36+i*.195;box(scene,4.7,y,z,1.06,.13,.34,playWoodLight);}
-box(scene,4.7,1.55,-.2,1.12,.18,.62,playWoodLight);
-for(const x of [4.04,5.36]){
- const stringer=box(scene,x,.94,-1.35,.11,.12,2.5,playWood);stringer.rotation.x=-.54;
- const handrail=box(scene,x,1.57,-1.35,.1,.1,2.5,playWoodLight);handrail.rotation.x=-.54;
- for(const [y,z] of [[.42,-2.5],[1.63,-.2]])box(scene,x,y,z,.11,.11,.12,playWood);
+// A visible outside stair climbs from the lawn behind the tower onto the side route.
+for(let i=0;i<8;i++){const z=-2.35+i*.29,y=.39+i*.17;box(scene,6.29,y,z,.76,.14,.32,playWoodLight);}
+for(const x of [5.88,6.70]){
+ const stringer=box(scene,x,.96,-1.34,.12,.14,2.42,playWood);stringer.rotation.x=-.53;
+ const handrail=box(scene,x,1.53,-1.34,.11,.11,2.42,playWoodLight);handrail.rotation.x=-.53;
+ for(const [y,z] of [[.45,-2.55],[1.56,-.13]])box(scene,x,y,z,.12,.12,.14,playWood);
 }
-// Full side catwalk reaches from the tower opening to the slide boarding lip.
+// Full side catwalk reaches from the stair landing to the slide boarding lip.
 box(scene,6.29,1.55,.775,.78,.18,2.21,playWoodLight);
 // Closely spaced anti-slip timber cleats run across the whole elevated route.
 for(let z=-.2;z<=1.66;z+=.32)box(scene,6.29,1.67,z,.72,.055,.065,playWood);
