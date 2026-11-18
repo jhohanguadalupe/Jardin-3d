@@ -7,7 +7,15 @@
 .scene-tool{padding:8px 11px;border:1px solid rgba(255,255,255,.26);border-radius:2px;background:rgba(27,41,33,.44);backdrop-filter:blur(10px);color:rgba(255,255,255,.78);font:8px 'DM Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
 .scene-tool:hover,.scene-tool.active{background:rgba(213,209,154,.22);border-color:rgba(213,209,154,.66);color:#fff}
 @media(max-width:700px){.scene-tools{left:7%;right:7%;bottom:17%;justify-content:flex-end;gap:5px;flex-wrap:wrap}.scene-tool{font-size:7px;padding:7px 8px}.scene-nav{bottom:9%}}
-.touch-controls{display:none}
+.touch-controls{position:absolute;z-index:4;left:5.3%;bottom:92px;display:flex;align-items:flex-end;gap:16px;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s}
+.touch-controls.visible{opacity:1;transform:none}
+.touch-pad{width:138px;height:138px;display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:3px;pointer-events:auto;touch-action:none}
+.touch-key,.touch-action{display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.32);background:rgba(27,41,33,.58);backdrop-filter:blur(10px);color:#fff;font:600 14px 'DM Sans',sans-serif;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.touch-key:active,.touch-action:active,.touch-action.pressed{background:rgba(213,209,154,.48);border-color:#d5d19a;color:#fff}
+.touch-up{grid-column:2;grid-row:1}.touch-left{grid-column:1;grid-row:2}.touch-down{grid-column:2;grid-row:2}.touch-right{grid-column:3;grid-row:2}
+.touch-actions{display:flex;flex-direction:column;gap:8px;pointer-events:auto;touch-action:none}
+.touch-action{min-width:82px;min-height:50px;padding:0 12px;border-radius:2px;font-size:9px;letter-spacing:.12em}
+.touch-jump{background:rgba(113,132,88,.72);border-color:rgba(225,225,181,.55)}
 @media(max-width:700px),(pointer:coarse){
   .touch-controls{position:absolute;z-index:4;left:6%;right:6%;bottom:100px;display:flex;align-items:flex-end;justify-content:space-between;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s}
   .touch-controls.visible{opacity:1;transform:none}
