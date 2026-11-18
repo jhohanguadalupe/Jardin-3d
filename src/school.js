@@ -26,11 +26,51 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   for(const x of [2.0,3.4]){box(scene,x,1.1,18.02,.075,2.05,.1,metal);}
   for(const z of [17.1,18.98])box(scene,2.7,1.05,z,2.7,.09,.12,metal);
   for(let i=0;i<15;i++)box(scene,1.48+i*.17,1.09,18.02,.035,1.86,.07,metal);
-  // Gate plaque, ramp, sidewalk and a subdued street context.
+  // Gate plaque, ramp, sidewalk and the surrounding Bellavista street scene.
   box(scene,2.7,2.85,18.02,3.15,.52,.16,darkWood);box(scene,2.7,2.85,17.92,2.96,.37,.025,mat('#4d5a47'));
   const ramp=box(scene,2.7,.12,19.65,3.1,.18,3.2,cap);ramp.rotation.x=-.035;
   box(scene,0,-.4,22.5,180,.38,9,mat('#565953'),false,true);box(scene,0,-.15,18.8,180,.14,1.2,cap,false,true);
   for(let x=-86;x<90;x+=9)box(scene,x,-.19,22.5,4,.02,.11,mat('#ded8c8'),false,false);
+  // Ground continues beyond the site plinth so the school sits in a real neighborhood, not a void.
+  box(scene,0,-.55,0,300,.3,300,mat('#98968a',.98),false,true);
+  // The side street meets Calle P at a corner; raised veredas border both roads.
+  box(scene,-14.85,-.36,0,7.3,.38,62,mat('#565953'),false,true);
+  box(scene,-10.85,-.1,0,.65,.18,58,cap,false,true);
+  box(scene,-19.22,-.28,0,1.25,.18,58,cap,false,true);
+  box(scene,0,-.28,28.15,180,.18,1.35,cap,false,true);
+  box(scene,0,-.28,-21.2,42,.18,1.35,cap,false,true);
+  for(let z=-28;z<29;z+=9)box(scene,-14.85,-.16,z, .045,.025,3.2,mat('#ded8c8'),false,false);
+  for(let x=-86;x<90;x+=9)box(scene,x,-.16,22.5,4,.025,.11,mat('#ded8c8'),false,false);
+  // A pedestrian crossing lines up with the school gate and entry ramp.
+  for(let i=0;i<6;i++)box(scene,2.7,-.16,21.55+i*.46,3.2,.025,.2,mat('#e3dfd1'),false,false);
+  const homePalette=['#d2c1a7','#c7c7b8','#d6c7b1','#cbbdaf','#d9c9b2','#c6c1b1'];
+  function addHome(x,z,w,d,h,color=homePalette[0],roofColor='#827c6d'){
+    const g=new THREE.Group();g.position.set(x,-.4,z);scene.add(g);const facade=mat(color,.92),roofMat=mat(roofColor,.88);
+    box(g,0,h/2,0,w,h,d,facade,false,true);box(g,0,h+.12,0,w+.34,.24,d+.34,roofMat,false,true);
+    // Simple parapet, concrete roof lip, and a few ventilation stacks.
+    for(const zz of [-d/2-.1,d/2+.1])box(g,0,h+.29,zz,w+.32,.13,.12,roofMat,false,true);
+    for(const xx of [-w/2-.1,w/2+.1])box(g,xx,h+.29,0,.12,.13,d+.32,roofMat,false,true);
+    for(const zz of [-1,1])for(let row=0;row<(h>4.5?2:1);row++)for(const xx of [-w*.28,w*.08,w*.34]){
+      const yy=1.45+row*2.0,faceZ=zz*(d/2+.025);box(g,xx,yy,faceZ,1.12,.92,.06,glass,false,false);
+      box(g,xx,yy,faceZ+zz*.045,1.22,.075,.08,trim,false,false);box(g,xx,yy,faceZ+zz*.045,.075,1.02,.08,trim,false,false);box(g,xx,yy,faceZ+zz*.05,.04,.86,.085,cap,false,false);
+    }
+    for(const side of [-1,1])for(const zz of [-d*.25,d*.2]){const faceX=side*(w/2+.025);box(g,faceX,1.48,zz,.06,.92,1.04,glass,false,false);box(g,faceX+side*.045,1.48,zz,.08,1.02,1.14,trim,false,false);box(g,faceX+side*.05,1.48,zz,.085,.055,.98,cap,false,false);}
+    box(g,-w*.24,1.03,d/2+.07,.94,2.06,.1,darkWood,false,false);box(g,-w*.24+.31,1.05,d/2+.13,.06,.06,.04,mat('#c1a16a',.35,{metalness:.55}),false,false);
+    box(g,-w*.24, .12,d/2+.55,1.34,.2,.86,cap,false,true);
+    if(h>4.5){box(g,w*.23,2.36,d/2+.28,1.72,.14,.64,cap,false,true);for(const dx of [-.78,-.39,0,.39,.78])box(g,w*.23+dx,2.66,d/2+.58,.045,.55,.045,metal);box(g,w*.23,2.91,d/2+.58,1.65,.06,.06,metal);}
+    // A small rooftop tank and flue make the nearby homes feel occupied.
+    cylinder(g,w*.33,h+.56,-d*.24,.3,.34,.7,mat('#aeb8b4',.5),12);cylinder(g,-w*.3,h+.43,-d*.27,.09,.11,.5,roofMat,10);
+  }
+  addHome(-26,-13,12,10,4.4,homePalette[0]);addHome(-25,1,13,9,4.8,homePalette[1]);addHome(-26,15,12,10,4.3,homePalette[2]);
+  addHome(20,-12,11,12,4.7,homePalette[3]);addHome(20,3,11,10,4.4,homePalette[4]);addHome(20,16,11,10,4.9,homePalette[5]);
+  for(const [x,color] of [[-29,homePalette[4]],[-10,homePalette[0]],[10,homePalette[2]],[29,homePalette[1]]])addHome(x,34,13,9,4.5,color);
+  addHome(-8,-29,14,9,4.2,homePalette[1]);addHome(8,-29,14,9,4.6,homePalette[3]);
+  // Street trees, low planted verges and warm pedestrian lamps frame the school block.
+  for(const [x,z,s] of [[-20,-20,.76],[-20,-8,.82],[-20,5,.78],[-20,17,.84],[12,-18,.72],[13,-5,.7],[13,8,.74],[13,17,.7],[-16,30,.72],[-4,30,.68],[9,30,.72],[23,30,.72]]){const tree=addTree(x,z,s);tree.position.y=-.4;}
+  const poleMat=mat('#5a5c53',.68,{metalness:.28}),lampMat=new THREE.MeshStandardMaterial({color:'#f0dfb1',emissive:'#ddc786',emissiveIntensity:1.2,roughness:.38});
+  for(const [x,z] of [[-11.25,-16],[-11.25,-4],[-11.25,8],[-11.25,16],[-25,28],[-5,28],[16,28]]){cylinder(scene,x,1.35,z,.055,.08,3.5,poleMat,10);const arm=box(scene,x+.48,3.02,z,.92,.07,.07,poleMat);arm.rotation.z=-.12;cylinder(scene,x+.87,2.9,z,.1,.12,.2,lampMat,12);}
+  // Short concrete planting pockets soften the junction between the two roads.
+  for(const z of [-22,-9,4,17,29]){box(scene,-11.55,-.13,z, .45,.18,2.2,mat('#786f5c'),false,true);const plant=addShrub(-11.55,z,.64,true);plant.position.y=.02;}
 
   // Forecourt: rubber play area on the left and green garden beds on the right.
   floor(-4.1,15.6,11,5.2,rubber,.18);floor(6.35,15.1,5.2,4.9,lawn,.18);
