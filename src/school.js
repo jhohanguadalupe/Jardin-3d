@@ -2,12 +2,12 @@ import * as THREE from 'three';
 
 export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim}) {
   const collisionWalls=[];
-  const stucco=mat('#d8cfbd',.92), wall=mat('#d4c7ae',.9), cap=mat('#e2d7bf',.82), darkWood=mat('#795f48',.82), timber=mat('#a98255',.78), glass=new THREE.MeshPhysicalMaterial({color:'#a8c7c7',roughness:.16,transparent:true,opacity:.34,transmission:.12,clearcoat:.8}), metal=mat('#51594f',.48,{metalness:.48});
-  const floorClass=mat('#bcb5a6'), tile=mat('#c7c3b8'), rubber=mat('#756a5c'), lawn=grass;
-  const addWall=(x1,z1,x2,z2,h=2.8,t=.18,m=wall,y0=0)=>{const dx=x2-x1,dz=z2-z1,len=Math.hypot(dx,dz),w=box(scene,(x1+x2)/2,y0+h/2,(z1+z2)/2,len,h,t,m);w.rotation.y=-Math.atan2(dz,dx);collisionWalls.push({x1,z1,x2,z2,thickness:t});return w;};
+  const stucco=mat('#e9e4d8',.96), wall=mat('#eee9df',.96), cap=mat('#e2d7bf',.82), darkWood=mat('#76543a',.82), timber=mat('#a98255',.78), blue=mat('#075a9e',.74), basePaint=mat('#245b67',.9), glass=new THREE.MeshPhysicalMaterial({color:'#a8c7c7',roughness:.16,transparent:true,opacity:.34,transmission:.12,clearcoat:.8}), metal=mat('#242c2e',.42,{metalness:.58});
+  const floorClass=mat('#bebdb7',.96), tile=mat('#c8c7bf',.94), concrete=mat('#77776f',.98), soil=mat('#71583b',.98), rubber=mat('#756a5c'), lawn=grass;
+  const addWall=(x1,z1,x2,z2,h=2.8,t=.18,m=wall,y0=0)=>{const dx=x2-x1,dz=z2-z1,len=Math.hypot(dx,dz),angle=-Math.atan2(dz,dx),w=box(scene,(x1+x2)/2,y0+h/2,(z1+z2)/2,len,h,t,m);w.rotation.y=angle;if(h>=2.5&&(m===wall||m===stucco)){const band=box(scene,(x1+x2)/2,y0+.25,(z1+z2)/2,len,.5,t+.025,basePaint);band.rotation.y=angle;}collisionWalls.push({x1,z1,x2,z2,thickness:t});return w;};
   const floor=(x,z,w,d,m=tile,y=.08)=>box(scene,x,y,z,w,.16,d,m,false,true);
-  const windowWall=(x1,z1,x2,z2)=>{addWall(x1,z1,x2,z2,.98,.18,wall,0);addWall(x1,z1,x2,z2,.42,.18,wall,2.36);addWall(x1,z1,x2,z2,1.28,.07,glass, .98);};
-  const door=(x,z,angle=0,material=darkWood)=>{const g=new THREE.Group();g.position.set(x,.06,z);g.rotation.y=angle;scene.add(g);box(g,.48,1.08,0,.92,2.08,.12,material);box(g,.84,1.08,.085,.07,.07,.035,mat('#c6a56a',.35,{metalness:.65}));return g;};
+  const windowWall=(x1,z1,x2,z2)=>{addWall(x1,z1,x2,z2,.98,.18,wall,0);addWall(x1,z1,x2,z2,.42,.18,wall,2.36);addWall(x1,z1,x2,z2,1.28,.07,glass, .98);const dx=x2-x1,dz=z2-z1,len=Math.hypot(dx,dz),angle=-Math.atan2(dz,dx),g=new THREE.Group();g.position.set((x1+x2)/2,1.62,(z1+z2)/2);g.rotation.y=angle;scene.add(g);for(let x=-len/2+.12;x<len/2;x+=.24)box(g,x,0,.11,.045,1.25,.055,metal,false,false);for(const y of [-.55,0,.55])box(g,0,y,.11,len,.045,.055,metal,false,false);};
+  const door=(x,z,angle=0,material=blue)=>{const g=new THREE.Group();g.position.set(x,.06,z);g.rotation.y=angle;scene.add(g);box(g,.48,1.08,0,.92,2.08,.12,material);box(g,.84,1.08,.085,.07,.07,.035,mat('#c6a56a',.35,{metalness:.65}));box(g,.48,2.15,0,1.12,.13,.22,blue);return g;};
 
   // School parcel follows the reference plan dimensions, with the garden's stone plinth and warm perimeter.
   box(scene,0,-.34,0,21,.8,40,mat('#827f73'),false,true);
@@ -18,97 +18,131 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   for(let z=-18.2;z<18.4;z+=1.15)for(let x=-9.2;x<9;x+=1.3){
     const seam=box(scene,x,.205,z,1.24,.025,.025,mat('#aaa18e'),false,true);seam.rotation.y=(Math.floor((z+18.2)/1.15)%2)*.04;
   }
-  const campusWall=mat('#c8bda7',.94);
+  const campusWall=wall;
   addWall(-8.8,-19,8.8,-19,2.9,.26,campusWall);addWall(-8.8,-19,-10.2,19.2,2.65,.26,campusWall);addWall(8.8,-19,9.4,17.5,2.65,.26,campusWall);
-  addWall(-10.2,19.2,1.3,18.2,2.55,.26,campusWall);addWall(4.1,18,9.4,17.5,2.55,.26,campusWall);
-  // A single welcoming, double-leaf gate at the front opening.
-  for(const x of [1.35,4.05]){box(scene,x,1.28,18.06,.16,2.48,.2,darkWood);box(scene,x,2.58,18.06,.34,.14,.34,cap);}
-  for(const x of [2.0,3.4]){box(scene,x,1.1,18.02,.075,2.05,.1,metal);}
-  for(const z of [17.1,18.98])box(scene,2.7,1.05,z,2.7,.09,.12,metal);
-  for(let i=0;i<15;i++)box(scene,1.48+i*.17,1.09,18.02,.035,1.86,.07,metal);
-  // Gate plaque, ramp, sidewalk and the surrounding Bellavista street scene.
-  box(scene,2.7,2.85,18.02,3.15,.52,.16,darkWood);box(scene,2.7,2.85,17.92,2.96,.37,.025,mat('#4d5a47'));
-  const ramp=box(scene,2.7,.12,19.65,3.1,.18,3.2,cap);ramp.rotation.x=-.035;
-  box(scene,0,-.4,22.5,180,.38,9,mat('#565953'),false,true);box(scene,0,-.15,18.8,180,.14,1.2,cap,false,true);
-  for(let x=-86;x<90;x+=9)box(scene,x,-.19,22.5,4,.02,.11,mat('#ded8c8'),false,false);
-  // Ground continues beyond the site plinth so the school sits in a real neighborhood, not a void.
-  box(scene,0,-.55,0,300,.3,300,mat('#98968a',.98),false,true);
-  // The side street meets Calle P at a corner; raised veredas border both roads.
-  box(scene,-14.85,-.36,0,7.3,.38,62,mat('#565953'),false,true);
-  box(scene,-10.85,-.1,0,.65,.18,58,cap,false,true);
-  box(scene,-19.22,-.28,0,1.25,.18,58,cap,false,true);
-  box(scene,0,-.28,28.15,180,.18,1.35,cap,false,true);
-  box(scene,0,-.28,-21.2,42,.18,1.35,cap,false,true);
-  for(let z=-28;z<29;z+=9)box(scene,-14.85,-.16,z, .045,.025,3.2,mat('#ded8c8'),false,false);
-  for(let x=-86;x<90;x+=9)box(scene,x,-.16,22.5,4,.025,.11,mat('#ded8c8'),false,false);
-  // A pedestrian crossing lines up with the school gate and entry ramp.
-  for(let i=0;i<6;i++)box(scene,2.7,-.16,21.55+i*.46,3.2,.025,.2,mat('#e3dfd1'),false,false);
-  const homePalette=['#d2c1a7','#c7c7b8','#d6c7b1','#cbbdaf','#d9c9b2','#c6c1b1'];
-  function addHome(x,z,w,d,h,color=homePalette[0],roofColor='#827c6d'){
-    const g=new THREE.Group();g.position.set(x,-.4,z);scene.add(g);const facade=mat(color,.92),roofMat=mat(roofColor,.88);
-    box(g,0,h/2,0,w,h,d,facade,false,true);box(g,0,h+.12,0,w+.34,.24,d+.34,roofMat,false,true);
-    // Simple parapet, concrete roof lip, and a few ventilation stacks.
-    for(const zz of [-d/2-.1,d/2+.1])box(g,0,h+.29,zz,w+.32,.13,.12,roofMat,false,true);
-    for(const xx of [-w/2-.1,w/2+.1])box(g,xx,h+.29,0,.12,.13,d+.32,roofMat,false,true);
-    for(const zz of [-1,1])for(let row=0;row<(h>4.5?2:1);row++)for(const xx of [-w*.28,w*.08,w*.34]){
-      const yy=1.45+row*2.0,faceZ=zz*(d/2+.025);box(g,xx,yy,faceZ,1.12,.92,.06,glass,false,false);
-      box(g,xx,yy,faceZ+zz*.045,1.22,.075,.08,trim,false,false);box(g,xx,yy,faceZ+zz*.045,.075,1.02,.08,trim,false,false);box(g,xx,yy,faceZ+zz*.05,.04,.86,.085,cap,false,false);
-    }
-    for(const side of [-1,1])for(const zz of [-d*.25,d*.2]){const faceX=side*(w/2+.025);box(g,faceX,1.48,zz,.06,.92,1.04,glass,false,false);box(g,faceX+side*.045,1.48,zz,.08,1.02,1.14,trim,false,false);box(g,faceX+side*.05,1.48,zz,.085,.055,.98,cap,false,false);}
-    box(g,-w*.24,1.03,d/2+.07,.94,2.06,.1,darkWood,false,false);box(g,-w*.24+.31,1.05,d/2+.13,.06,.06,.04,mat('#c1a16a',.35,{metalness:.55}),false,false);
-    box(g,-w*.24, .12,d/2+.55,1.34,.2,.86,cap,false,true);
-    if(h>4.5){box(g,w*.23,2.36,d/2+.28,1.72,.14,.64,cap,false,true);for(const dx of [-.78,-.39,0,.39,.78])box(g,w*.23+dx,2.66,d/2+.58,.045,.55,.045,metal);box(g,w*.23,2.91,d/2+.58,1.65,.06,.06,metal);}
-    // A small rooftop tank and flue make the nearby homes feel occupied.
-    cylinder(g,w*.33,h+.56,-d*.24,.3,.34,.7,mat('#aeb8b4',.5),12);cylinder(g,-w*.3,h+.43,-d*.27,.09,.11,.5,roofMat,10);
+  // The street-facing school wall is continuous except for the main entrance.
+  addWall(-10.2,19.2,1.35,18.2,3.25,.3,wall);addWall(4.05,17.95,9.4,17.5,3.25,.3,wall);
+  for(const [x,z] of [[1.38,18.18],[4.02,17.96]])box(scene,x,1.68,z,.2,3.28,.34,blue);
+  box(scene,2.7,3.25,18.04,2.95,.2,.34,blue);
+  // Heavy painted steel leaves sit partly open, revealing the dark school corridor beyond.
+  const leftLeaf=new THREE.Group();leftLeaf.position.set(1.48,.08,18.12);leftLeaf.rotation.y=.58;scene.add(leftLeaf);
+  box(leftLeaf,.64,1.43,0,1.28,2.78,.12,blue);box(leftLeaf,.64,.14,.08,1.28,.12,.055,mat('#06477e',.72));
+  for(const y of [.34,.72,1.1,1.48,1.86,2.24,2.62])box(leftLeaf,.64,y,.075,1.27,.035,.035,mat('#176bac',.66));
+  const rightLeaf=new THREE.Group();rightLeaf.position.set(3.92,.08,17.98);rightLeaf.rotation.y=-.58;scene.add(rightLeaf);
+  box(rightLeaf,-.64,1.43,0,1.28,2.78,.12,blue);for(const y of [.34,.72,1.1,1.48,1.86,2.24,2.62])box(rightLeaf,-.64,y,.075,1.27,.035,.035,mat('#176bac',.66));
+  for(const [x,z] of [[1.48,18.12],[3.92,17.98]])cylinder(scene,x,1.1,z,.045,.045,2.05,mat('#715d38',.42,{metalness:.55}),10);
+  // Rust-marked corrugated metal roof replaces the flat, beam-like fascia.
+  const zinc=mat('#b8b5aa',.9,{metalness:.12}),roofRust=mat('#965036',.92),roofDust=mat('#d2cabb',.94);
+  // Keep the roof's long edge parallel to the angled facade so its left and right ends meet the wall evenly.
+  // Original entrance roof footprint and position.
+  const roofGroup=new THREE.Group();roofGroup.position.set(-.4,0,17.15);roofGroup.rotation.y=.0866;scene.add(roofGroup);
+  const roofPanel=box(roofGroup,0,3.62,0,19.9,.09,4.7,zinc);roofPanel.rotation.x=.1;
+  for(let x=-9.85;x<=9.85;x+=.24){const rib=box(roofGroup,x,3.69,0,.045,.075,4.7,Math.sin(x*2.3)>.55?roofRust:roofDust,false,true);rib.rotation.x=.1;}
+  for(const [x,w,d] of [[-8.85,.42,2.4],[-8.15,.18,1.7],[-4.75,.58,2.7],[-1.95,.28,1.9],[1,.68,2.6],[3.85,.3,1.8],[6.65,.6,2.4],[8.85,.26,1.5]]){const patch=box(roofGroup,x,3.735,0,w,.018,d,roofRust,false,false);patch.rotation.x=.1;}
+  const eave=box(roofGroup,0,3.44,2.33,19.95,.12,.16,mat('#77746c',.88));eave.rotation.x=.1;
+  for(const x of [-8.4,-4.2,.2,4.6,8.6]){const bracket=box(roofGroup,x+.4,3.12,1.68,.11,.11,.72,metal);bracket.rotation.x=-.34;}
+  // Large two-line institutional lettering and crest, aligned flush with the sloped street facade.
+  const signCanvas=document.createElement('canvas');signCanvas.width=2400;signCanvas.height=512;const signCtx=signCanvas.getContext('2d');
+  signCtx.clearRect(0,0,2400,512);signCtx.textBaseline='middle';signCtx.textAlign='left';signCtx.lineJoin='round';signCtx.shadowColor='rgba(162,133,57,.96)';signCtx.shadowOffsetX=11;signCtx.shadowOffsetY=10;signCtx.shadowBlur=1;signCtx.strokeStyle='#b69a50';signCtx.lineWidth=8;signCtx.fillStyle='#174d67';
+  const schoolName='INSTITUCION EDUCATIVA N° 07 BELLAVISTA';let titleSize=104;signCtx.font=`900 ${titleSize}px Georgia,serif`;while(signCtx.measureText(schoolName).width>1880&&titleSize>64){titleSize-=2;signCtx.font=`900 ${titleSize}px Georgia,serif`;}
+  signCtx.strokeText(schoolName,42,178);signCtx.fillText(schoolName,42,178);signCtx.font='900 128px Georgia,serif';signCtx.strokeText('INICIAL',760,372);signCtx.fillText('INICIAL',760,372);signCtx.shadowColor='transparent';
+  signCtx.beginPath();signCtx.moveTo(2070,47);signCtx.lineTo(2328,75);signCtx.lineTo(2294,338);signCtx.lineTo(2198,445);signCtx.lineTo(2102,338);signCtx.closePath();signCtx.fillStyle='#164b68';signCtx.fill();signCtx.lineWidth=12;signCtx.strokeStyle='#d6ad53';signCtx.stroke();
+  signCtx.fillStyle='#b74035';signCtx.fillRect(2105,89,188,107);signCtx.fillStyle='#f3e8c4';signCtx.fillRect(2105,201,188,91);signCtx.fillStyle='#123c5d';signCtx.fillRect(2105,297,188,65);signCtx.fillStyle='#fff';signCtx.textAlign='center';signCtx.font='700 70px Arial';signCtx.fillText('N° 07',2199,277);signCtx.font='700 78px Arial';signCtx.fillText('E',2199,160);
+  const signTexture=new THREE.CanvasTexture(signCanvas);signTexture.colorSpace=THREE.SRGBColorSpace;const sign=new THREE.Mesh(new THREE.PlaneGeometry(11.05,2.35),new THREE.MeshBasicMaterial({map:signTexture,transparent:true,depthWrite:false}));sign.position.set(-4.4,2.08,18.87);sign.rotation.y=.086;scene.add(sign);
+  // A broad accessible concrete approach with low side curbs, aligned to the doorway.
+  const ramp=box(scene,2.7,.12,19.72,4.15,.18,3.75,mat('#c9c5b8',.94));ramp.rotation.x=-.025;
+  for(const x of [.42,4.98])box(scene,x,.26,19.72,.16,.34,3.75,cap);
+  const fieldCanvas=document.createElement('canvas');fieldCanvas.width=512;fieldCanvas.height=512;const fieldCtx=fieldCanvas.getContext('2d');fieldCtx.fillStyle='#586b43';fieldCtx.fillRect(0,0,512,512);
+  const fieldColors=['rgba(31,64,32,.28)','rgba(104,105,69,.18)','rgba(66,91,43,.26)','rgba(93,75,50,.18)'];
+  for(let i=0;i<260;i++){const x=Math.random()*512,y=Math.random()*512,r=6+Math.random()*38,g=fieldCtx.createRadialGradient(x,y,1,x,y,r);g.addColorStop(0,fieldColors[i%fieldColors.length]);g.addColorStop(1,'rgba(88,107,67,0)');fieldCtx.fillStyle=g;fieldCtx.beginPath();fieldCtx.arc(x,y,r,0,Math.PI*2);fieldCtx.fill();}
+  for(let i=0;i<3600;i++){fieldCtx.globalAlpha=.08+Math.random()*.24;fieldCtx.fillStyle=fieldColors[i%fieldColors.length];const size=.6+Math.random()*3.5;fieldCtx.fillRect(Math.random()*512,Math.random()*512,size,size);}fieldCtx.globalAlpha=1;
+  const fieldTexture=new THREE.CanvasTexture(fieldCanvas);fieldTexture.wrapS=fieldTexture.wrapT=THREE.RepeatWrapping;fieldTexture.repeat.set(72,72);fieldTexture.colorSpace=THREE.SRGBColorSpace;
+  const field=mat('#d1d6b5',1,{map:fieldTexture});
+  const roadCanvas=document.createElement('canvas');roadCanvas.width=roadCanvas.height=256;const roadCtx=roadCanvas.getContext('2d');roadCtx.fillStyle='#817969';roadCtx.fillRect(0,0,256,256);for(let i=0;i<2300;i++){roadCtx.globalAlpha=.08+Math.random()*.24;roadCtx.fillStyle=i%2?'#b7aa8f':'#534e42';const size=.6+Math.random()*3;roadCtx.fillRect(Math.random()*256,Math.random()*256,size,size);}roadCtx.globalAlpha=1;
+  const roadTexture=new THREE.CanvasTexture(roadCanvas);roadTexture.wrapS=roadTexture.wrapT=THREE.RepeatWrapping;roadTexture.repeat.set(54,3);roadTexture.colorSpace=THREE.SRGBColorSpace;
+  // A single unpaved road runs along the school frontage; the surrounding land is open rural field.
+  box(scene,0,-.55,0,300,.3,300,field,false,true);
+  box(scene,0,-.4,22.5,180,.38,9,mat('#fffdf2',1,{map:roadTexture}),false,true);
+  box(scene,0,-.15,18.8,180,.14,1.2,cap,false,true);
+  for(const z of [17.2,27.8])box(scene,0,-.36,z,180,.08,1.0,mat('#a29578',1,{map:fieldTexture}),false,true);
+  // Soft distant ridgelines give the small Bellavista campus a believable Andean setting.
+  const hillMats=['#7e8768','#929478','#777f65'].map(c=>mat(c,1));
+  for(const [x,z,sx,sy,sz,i] of [[-72,-91,36,8,22,0],[-28,-99,42,10,24,1],[22,-94,48,11,24,0],[78,-88,36,8,22,2],[-78,95,42,9,25,2],[-26,102,44,8,24,0],[34,97,48,11,25,1],[84,90,38,9,23,0]]){const hill=new THREE.Mesh(new THREE.IcosahedronGeometry(1,2),hillMats[i]);hill.position.set(x,-.1+sy*.38,z);hill.scale.set(sx,sy,sz);hill.receiveShadow=true;scene.add(hill);}
+  // Only a few distant trees break up the open Bellavista countryside.
+  for(const [x,z,s] of [[-38,-32,1.12],[35,-39,1.04],[-46,38,1.18],[42,45,.96]]){const tree=addTree(x,z,s);tree.position.y=-.4;}
+  // Entry court: clear the former playground and safe-zone platform to make room for
+  // the real covered walkway, ramp and narrow planting bed from the reference photo.
+  const entryPaving=mat('#77766d',.96);
+  floor(2.7,13.35,4.9,9.4,entryPaving,.15);
+  // The passage side wall runs for the full depth of the existing entrance canopy.
+  addWall(1.8,18.1,1.8,12.6,.22,.2,cap);
+  addWall(.7,18.9,.7,15.72,3.55,.18,wall);
+  addWall(4.7,18.9,4.7,15.72,3.55,.18,wall);
+  // Direction office entrance centered in the opposite long wall, to the right of the main gate in the courtyard view.
+  addWall(-10.2,15.72,-5.78,15.72,3.55,.18,wall);
+  addWall(-3.72,15.72,.7,15.72,3.55,.18,wall);
+  addWall(4.7,15.72,9.4,15.72,3.55,.18,wall);
+  box(scene,-4.75,3.0,15.72,2.06,1.1,.18,wall);
+  const officeBlue=mat('#075a9e',.74),officeBlueLight=mat('#176bac',.66),officeBlueDark=mat('#06477e',.72);
+  // Two paneled blue leaves, seated in the new opening.
+  for(const cx of [-5.23,-4.27]){
+    box(scene,cx,1.16,15.605,.9,2.32,.12,officeBlue);
+    for(const y of [.73,1.62])box(scene,cx, y,15.535,.62,.55,.035,officeBlueDark);
+    for(const y of [.73,1.62])box(scene,cx,y,15.515,.52,.45,.025,officeBlueLight);
   }
-  addHome(-26,-13,12,10,4.4,homePalette[0]);addHome(-25,1,13,9,4.8,homePalette[1]);addHome(-26,15,12,10,4.3,homePalette[2]);
-  addHome(20,-12,11,12,4.7,homePalette[3]);addHome(20,3,11,10,4.4,homePalette[4]);addHome(20,16,11,10,4.9,homePalette[5]);
-  for(const [x,color] of [[-29,homePalette[4]],[-10,homePalette[0]],[10,homePalette[2]],[29,homePalette[1]]])addHome(x,34,13,9,4.5,color);
-  addHome(-8,-29,14,9,4.2,homePalette[1]);addHome(8,-29,14,9,4.6,homePalette[3]);
-  // Street trees, low planted verges and warm pedestrian lamps frame the school block.
-  for(const [x,z,s] of [[-20,-20,.76],[-20,-8,.82],[-20,5,.78],[-20,17,.84],[12,-18,.72],[13,-5,.7],[13,8,.74],[13,17,.7],[-16,30,.72],[-4,30,.68],[9,30,.72],[23,30,.72]]){const tree=addTree(x,z,s);tree.position.y=-.4;}
-  const poleMat=mat('#5a5c53',.68,{metalness:.28}),lampMat=new THREE.MeshStandardMaterial({color:'#f0dfb1',emissive:'#ddc786',emissiveIntensity:1.2,roughness:.38});
-  for(const [x,z] of [[-11.25,-16],[-11.25,-4],[-11.25,8],[-11.25,16],[-25,28],[-5,28],[16,28]]){cylinder(scene,x,1.35,z,.055,.08,3.5,poleMat,10);const arm=box(scene,x+.48,3.02,z,.92,.07,.07,poleMat);arm.rotation.z=-.12;cylinder(scene,x+.87,2.9,z,.1,.12,.2,lampMat,12);}
-  // Short concrete planting pockets soften the junction between the two roads.
-  for(const z of [-22,-9,4,17,29]){box(scene,-11.55,-.13,z, .45,.18,2.2,mat('#786f5c'),false,true);const plant=addShrub(-11.55,z,.64,true);plant.position.y=.02;}
-
-  // Forecourt: rubber play area on the left and green garden beds on the right.
-  floor(-4.1,15.6,11,5.2,rubber,.18);floor(6.35,15.1,5.2,4.9,lawn,.18);
-  // Low dividers guide circulation without blocking sightlines.
-  addWall(1.8,18.1,1.8,12.6,1.18,.17,cap);addWall(3.6,18,3.6,12.6,1.18,.17,cap);
-  // Playground fence, climbing frames, slide and double swing set.
-  for(const x of [-8.9,1.05])box(scene,x,.74,15.6,.12,1.35,.12,darkWood);
-  for(const z of [13.25,17.95])box(scene,-3.92,.45,z,10,.12,.12,darkWood);
-  for(let i=1;i<20;i++)box(scene,-8.92+i*.5,.75,17.95,.045,1.05,.06,metal);
-  for(const x of [-6.2,-2.7,.4]){box(scene,x,1.45,13.9,.14,2.6,.14,darkWood);box(scene,x+.85,1.45,13.9,.14,2.6,.14,darkWood);box(scene,x+.42,2.76,13.9,1.0,.14,.16,timber);}
-  // Play tower, access stair, and a slide with a real supporting frame.
-  box(scene,-5.15,.82,15.35,1.5,1.35,1.25,timber);box(scene,-5.15,1.55,15.35,1.95,.13,1.65,darkWood);
-  for(let i=0;i<5;i++){const s=box(scene,-5.15,.3+i*.2,14.15+i*.27,1.02,.12,.27,timber);}
-  const slide=box(scene,-5.15,.79,12.75,.9,.12,2.5,mat('#658c8b',.38,{metalness:.08}));slide.rotation.x=.43;
-  for(const x of [-5.58,-4.72])box(scene,x,.46,12.8,.1,.75,.1,darkWood);
-  for(const x of [-.8,.8]){box(scene,x,1.58,15.3,.12,2.85,.12,darkWood);}
-  box(scene,0,3.0,15.3,2.0,.15,.16,darkWood);
-  for(const x of [-.42,.42]){for(const z of [14.9,15.7]){const chain=cylinder(scene,x,.98,z,.018,.018,1.95,metal,8);}box(scene,x,.48,15.3,.48,.13,.34,mat('#a98255'));}
-  // Landscaped green pocket, shade trees, benches, stepping stones and border shrubs.
-  for(const [x,z,s] of [[7.6,15.6,.95],[5.1,14.3,.75]])addTree(x,z,s);
-  for(const x of [4.45,8.15]){box(scene,x,.32,13.05,1.05,.08,.54,cap);}
+  box(scene,-5.78,1.22,15.60,.12,2.44,.2,officeBlue);
+  box(scene,-3.72,1.22,15.60,.12,2.44,.2,officeBlue);
+  box(scene,-4.75,2.48,15.60,2.06,.16,.2,officeBlue);
+  box(scene,-4.77,1.08,15.505,.045,.22,.045,mat('#c6a56a',.35,{metalness:.65}));
+  box(scene,-4.66,1.08,15.505,.045,.22,.045,mat('#c6a56a',.35,{metalness:.65}));
+  const directionCanvas=document.createElement('canvas');directionCanvas.width=900;directionCanvas.height=180;
+  const directionCtx=directionCanvas.getContext('2d');directionCtx.clearRect(0,0,900,180);directionCtx.textAlign='center';directionCtx.textBaseline='middle';directionCtx.font='800 112px Arial';directionCtx.fillStyle='#d86143';directionCtx.shadowColor='rgba(70,45,30,.32)';directionCtx.shadowOffsetY=5;directionCtx.shadowBlur=3;directionCtx.fillText('DIRECCIÓN',450,90);
+  const directionTexture=new THREE.CanvasTexture(directionCanvas);directionTexture.colorSpace=THREE.SRGBColorSpace;
+  const directionSign=new THREE.Mesh(new THREE.PlaneGeometry(2.45,.49),new THREE.MeshBasicMaterial({map:directionTexture,transparent:true,depthWrite:false,side:THREE.DoubleSide}));
+  // Place the label in front of the door trim and render it from either side.
+  directionSign.position.set(-4.75,3.16,15.46);scene.add(directionSign);
+  addWall(3.6,15.9,3.6,12.6,.22,.2,cap);
+  // Continue the accessible ramp under the roof, leaving the passage free of rail bars.
+  const lowerLanding=box(scene,2.7,.15,12.95,3.35,.16,.8,concrete);
+  const innerLanding=box(scene,2.7,.39,8.18,3.35,.16,.72,concrete);
+  const patioRamp=box(scene,2.7,.32,10.55,1.52,.16,4.18,concrete);patioRamp.rotation.x=.067;
   // Central block: two classroom wings separated by a walk-through corridor.
   floor(-3.9,4.8,11.4,5.6,floorClass,.19);floor(6.35,4.8,5.5,5.6,floorClass,.19);
+  // Classroom wings and the walk-through corridor.
   addWall(-9.6,2,-3.5,2);windowWall(-3.5,2,.2,2);addWall(.2,2,1.8,2);addWall(1.8,2,1.8,6.4);door(1.8,6.4,Math.PI/2);
   addWall(-9.6,7.6,1.8,7.6);addWall(-9.6,2,-9.6,7.6);windowWall(-6.5,7.6,-2.5,7.6);
   addWall(3.6,2,4.7,2);door(3.6,2,0);windowWall(4.7,2,7.8,2);addWall(7.8,2,9.1,2);addWall(9.1,2,9.1,7.6);addWall(3.6,7.6,9.1,7.6);windowWall(5,7.6,7.8,7.6);
-  // Interior dividers and door leaves preserve the main central passage.
-  addWall(-3.5,2,-3.5,7.6,2.8,.14,stucco);addWall(4.7,2,4.7,7.6,2.8,.14,stucco);
+  // Interior dividers.
+  floor(2.7,4.8,1.8,5.6,tile,.19);
+  addWall(-3.5,2,-3.5,7.6,2.8,.14,stucco);
+  addWall(4.7,2,4.7,7.6,2.8,.14,stucco);
   addClassroomFurniture(-6.5,4.7,3,3);addClassroomFurniture(6.1,4.7,2,3);
   // Middle-left service kitchen and central sheltered play terrace.
   floor(-7.45,-1.8,3.7,5.3,tile,.19);addWall(-9.3,-4.5,-5.6,-4.5);addWall(-9.3,-4.5,-9.3,.8);addWall(-5.6,-4.5,-5.6,-.4);door(-5.6,-.4,Math.PI/2);addWall(-9.3,.8,-5.6,.8);
   box(scene,-8.55,.74,-1.85,1.15,.85,4.25,mat('#aaa99d'));box(scene,-8.55,1.2,-1.85,1.22,.08,4.32,cap);
-  floor(-1.3,-2.3,6.4,5.6,stone,.19);
-  for(const [x,z] of [[-4.2,-4.8],[-1.3,-4.8],[1.6,-4.8],[-4.2,.2],[-1.3,.2],[1.6,.2]])box(scene,x,1.65,z,.28,3.05,.28,darkWood);
-  for(const z of [-4.8,-3.65,-2.5,-1.35,-.2])box(scene,-1.3,3.2,z,6.55,.16,.22,timber);
-  // A large mid-garden and two toilet blocks along the right side.
-  floor(3.95,-5.05,5.1,8.8,lawn,.18);for(const [x,z,s] of [[3.45,-6.6,1.0],[4.3,-2.7,.82]])addTree(x,z,s);
-  for(const z of [-8.8,-6.5,-4.2,-1.9]){box(scene,5.95,.28,z,.7,.08,.48,cap);}
+  floor(-2.25,-3.8,6.3,10.0,concrete,.19);
+  const canopySteel=mat('#252c2c',.44,{metalness:.55}), canopyMetal=mat('#717771',.55,{metalness:.38});
+  const canopyXs=[-8.7,-5.0,-1.3,2.4],canopyZs=[-8.45,1.05];
+  for(const x of canopyXs)for(const z of canopyZs)box(scene,x,2.3,z,.18,4.2,.18,canopySteel);
+  for(const z of canopyZs)box(scene,-3.15,4.34,z,11.5,.18,.18,canopySteel);
+  for(const x of canopyXs)box(scene,x,4.34,-3.7,.16,.16,9.6,canopySteel);
+  // Wide corrugated shelter with exposed dark trusses, like the covered school patio.
+  box(scene,-3.15,4.5,-3.7,12.2,.12,10.25,canopyMetal);
+  const canopyRib=mat('#a2a49e',.5,{metalness:.35});for(let x=-9.15;x<=2.85;x+=.25)box(scene,x,4.57,-3.7,.045,.075,10.2,canopyRib);
+  for(const z of [-8.45,-3.75,.95]){
+    box(scene,-3.15,4.23,z,11.5,.12,.14,canopySteel);
+    for(const x of [-7.35,-3.35,.65])box(scene,x,4.23,z,.12,.62,.12,canopySteel);
+    for(const [x,lean] of [[-8.35,1],[-6.35,-1],[-4.35,1],[-2.35,-1],[-.35,1],[1.65,-1]]){const brace=box(scene,x,4.32,z,.1,.62,.1,canopySteel);brace.rotation.z=lean*.45;}
+  }
+  // A raised soil bed with low seedlings sits beside the covered concrete patio.
+  floor(3.95,-5.05,5.1,8.8,soil,.18);
+  for(const x of [1.35,6.55])box(scene,x,.28,-5.05,.18,.35,8.95,cap);
+  for(const z of [-9.45,-.65])box(scene,3.95,.28,z,5.2,.35,.18,cap);
+  for(let row=0;row<4;row++)for(let col=0;col<6;col++){
+    const x=1.85+col*.78,z=-8.75+row*2.1;
+    cylinder(scene,x,.42,z,.025,.035,.42,mat('#547342'),7);
+    for(let leaf=0;leaf<3;leaf++){const a=leaf*Math.PI*2/3,seedling=new THREE.Mesh(new THREE.SphereGeometry(.12,7,5),mat(leaf%2?'#719250':'#86a15c',.94));seedling.scale.set(1.3,.42,.55);seedling.position.set(x+Math.cos(a)*.11,.55+leaf*.012,z+Math.sin(a)*.11);scene.add(seedling);}
+  }
   floor(7.7,-5.65,2.4,8.3,tile,.2);addWall(6.5,-9.8,8.9,-9.8,2.5);addWall(8.9,-9.8,8.9,-1.5,2.5);addWall(6.5,-9.8,6.5,-1.5,2.5);
   for(let z=-8.2;z<=-1.5;z+=1.65){addWall(6.5,z,8.9,z,2.1,.14,stucco);door(6.5,z-.3,Math.PI/2);box(scene,8.35,.39,z-.85,.5,.48,.64,mat('#f3f0e8',.3));box(scene,8.35,.17,z-.85,.62,.12,.72,cap);}
   // Rear classroom wing with chamfered corridor and a small garden terrace.
@@ -118,25 +152,34 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   floor(-2.5,-9.8,7.2,3.2,lawn,.18);addTree(-4.4,-9.8,.82);
   for(let s=0;s<5;s++)box(scene,-.2,.2+s*.11,-8.6-s*.35,2.6,.16,.35,timber);
   addClassroomFurniture(-4.65,-15.2,3,3);addClassroomFurniture(4.65,-15.2,3,3);
-  // Emergency route markers and one assembly area, placed clear of doors and play equipment.
-  for(const z of [15.6,12.8,10.1])floorArrow(2.7,z,Math.PI/2);
-  for(const x of [-2,-5.1,-8.1])floorArrow(x,10.8,Math.PI);
-  floorArrow(2.7,8.9,Math.PI/2);floorArrow(2.7,-9.9,Math.PI/2);
-  const assembly=new THREE.Mesh(new THREE.TorusGeometry(.8,.06,10,56),mat('#e1cf85',.5,{emissive:'#4f4827',emissiveIntensity:.12}));assembly.rotation.x=Math.PI/2;assembly.position.set(6.2,.27,12);scene.add(assembly);
+  classroomBoard(-4.65,-18.84);classroomBoard(4.65,-18.84);
+  // Emergency route markings continue from the entry ramp into the school.
+  for(const z of [15.6,12.8])floorArrow(2.7,z,Math.PI/2);
+  floorArrow(2.7,8.18,Math.PI/2,.48);floorArrow(2.7,-9.9,Math.PI/2);
   // Low flowering shrubs and clipped greenery frame edges, while leaving the gate and routes open.
-  for(let x=-8.7;x<=8.7;x+=1.4){addShrub(x,-18.1,.56,x%2<1);if(x<-4.4||x>4.4)addShrub(x,17.3,.48,x%2>0);}
+  for(let x=-8.7;x<=8.7;x+=1.4)addShrub(x,-18.1,.56,x%2<1);
   for(let z=-16;z<=16;z+=2.1){addShrub(-8.95,z,.55);addShrub(8.1,z,.48);}
 
   function addClassroomFurniture(cx,cz,cols,rows){
+    const chairColors=['#c84232','#dfc54e','#3e82a1','#60a36c'];
     for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
       const x=cx-(cols-1)*1.65/2+c*1.65,z=cz-(rows-1)*1.5/2+r*1.5;
-      box(scene,x,.76,z,.9,.1,.66,timber);for(const dx of [-.36,.36])for(const dz of [-.24,.24])box(scene,x+dx,.43,z+dz,.06,.62,.06,darkWood);
-      for(const dx of [-.7,.7]){box(scene,x+dx,.51,z,.38,.08,.35,cap);for(const dz of [-.12,.12])box(scene,x+dx,.33,z+dz,.05,.36,.05,darkWood);}
+      const chair=mat(chairColors[(r+c)%chairColors.length],.68);
+      box(scene,x,.76,z,.9,.1,.66,mat('#d9caa6',.82));for(const dx of [-.36,.36])for(const dz of [-.24,.24])box(scene,x+dx,.43,z+dz,.06,.62,.06,timber);
+      for(const dx of [-.7,.7]){box(scene,x+dx,.51,z,.38,.1,.35,chair);box(scene,x+dx,.69,z-.16,.38,.36,.08,chair);for(const dz of [-.12,.12])box(scene,x+dx,.33,z+dz,.05,.36,.05,timber);}
     }
+  }
+  function classroomBoard(x,z){
+    const frame=mat('#24744e',.65),chalk=mat('#f6f4eb',.7),accent=[mat('#e6bc45'),mat('#ce5946'),mat('#5594ae'),mat('#78a95b')];
+    box(scene,x,1.68,z,2.55,1.18,.13,frame,false,false);box(scene,x,1.68,z-.08,2.36,.94,.035,chalk,false,false);
+    // Child-made drawings and a low book shelf add the lived-in classroom details from the photos.
+    for(let i=0;i<4;i++)box(scene,x-.82+i*.55,1.72,z-.11,.32,.38,.025,accent[i],false,false);
+    box(scene,x, .58,z+.34,2.2,1.0,.52,mat('#a98255'),false,false);box(scene,x,.83,z+.34,2.25,.09,.56,cap,false,false);
+    for(let i=0;i<5;i++){const book=box(scene,x-.82+i*.4,1.04,z+.1,.28,.38,.28,accent[i%4],false,false);book.rotation.z=(i%2?-.06:.04);}
   }
   function addShrub(x,z,s=1,flower=false){const g=new THREE.Group();g.position.set(x,.2,z);g.scale.setScalar(s);scene.add(g);for(let i=0;i<7;i++){const a=i*2.4,r=.1+Math.random()*.2,m=new THREE.Mesh(new THREE.SphereGeometry(.22+Math.random()*.1,8,7),mat(['#526f43','#66864d','#789354','#425f3e'][i%4],.92));m.position.set(Math.cos(a)*r,.16+Math.random()*.19,Math.sin(a)*r);m.scale.y=.72;m.castShadow=true;g.add(m);}if(flower)for(let i=0;i<3;i++){const f=new THREE.Mesh(new THREE.SphereGeometry(.05,7,6),mat(i%2?'#e6d5ae':'#d8aaa2'));f.position.set((i-1)*.14,.4,.08);g.add(f);}return g;}
   function addTree(x,z,s=1){const g=new THREE.Group();g.position.set(x,.18,z);g.scale.setScalar(s);scene.add(g);cylinder(g,0,1.45,0,.16,.23,2.9,mat('#62503d'),10);for(let i=0;i<20;i++){const a=Math.random()*Math.PI*2,u=Math.random()*2-1,r=Math.sqrt(1-u*u),leaf=new THREE.Mesh(new THREE.IcosahedronGeometry(.48+Math.random()*.35,1),mat(['#526f43','#66864d','#789354','#425f3e','#899b59'][i%5],.9));leaf.position.set(Math.cos(a)*r*.9,2.5+u*.8,Math.sin(a)*r*.75);leaf.scale.y=.82;leaf.castShadow=true;g.add(leaf);}return g;}
-  function floorArrow(x,z,yaw){const shape=new THREE.Shape();shape.moveTo(.38,0);shape.lineTo(-.12,.31);shape.lineTo(-.12,.16);shape.lineTo(-.42,.16);shape.lineTo(-.42,-.16);shape.lineTo(-.12,-.16);shape.lineTo(-.12,-.31);shape.closePath();const m=new THREE.Mesh(new THREE.ShapeGeometry(shape),mat('#f3f0e5'));m.rotation.x=-Math.PI/2;m.rotation.z=yaw;m.position.set(x,.23,z);scene.add(m);}
+  function floorArrow(x,z,yaw,y=.23){const shape=new THREE.Shape();shape.moveTo(.38,0);shape.lineTo(-.12,.31);shape.lineTo(-.12,.16);shape.lineTo(-.42,.16);shape.lineTo(-.42,-.16);shape.lineTo(-.12,-.16);shape.lineTo(-.12,-.31);shape.closePath();const m=new THREE.Mesh(new THREE.ShapeGeometry(shape),mat('#f3f0e5'));m.rotation.x=-Math.PI/2;m.rotation.z=yaw;m.position.set(x,y,z);scene.add(m);}
   return {collisionWalls};
 }
 
