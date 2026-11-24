@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css?v=minimapa-superior-20261124" />
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}
   </script>
@@ -18,10 +18,53 @@
   <main class="experience">
     <div id="scene" aria-label="Jardín 3D interactivo"></div>
     <div class="vignette"></div>
+    <svg class="map-symbols" aria-hidden="true" focusable="false">
+      <symbol id="school-map-art" viewBox="0 0 380 540">
+        <defs>
+          <pattern id="map-roof-lines" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(25)">
+            <rect width="9" height="9" fill="#46534b" />
+            <path d="M0 0V9" stroke="#aeb5a5" stroke-width="2" opacity=".7" />
+          </pattern>
+          <pattern id="map-garden-dots" width="12" height="12" patternUnits="userSpaceOnUse">
+            <rect width="12" height="12" fill="#765a3d" />
+            <circle cx="3" cy="3" r="2.2" fill="#91aa68" />
+            <circle cx="9" cy="9" r="2.2" fill="#506c43" />
+          </pattern>
+        </defs>
+        <rect class="map-ground" x="12" y="12" width="356" height="516" rx="18" />
+        <rect class="map-boundary" x="23" y="23" width="334" height="494" rx="12" />
+        <path class="map-path" d="M184 502V455H195V424H184V346H198V271H184V227H195V132H184V96" />
+        <path class="map-path map-path-cross" d="M55 348H316M58 244H320M68 143H310" />
+        <rect class="map-room" x="49" y="46" width="125" height="79" rx="5" />
+        <rect class="map-room" x="205" y="46" width="125" height="79" rx="5" />
+        <text class="map-label" x="111" y="81">AULA 01</text>
+        <text class="map-label" x="267" y="81">AULA 02</text>
+        <rect class="map-room map-kitchen" x="49" y="153" width="91" height="67" rx="5" />
+        <path class="map-counter" d="M60 164H129V177H73V208H60Z" />
+        <text class="map-label map-label-small" x="94" y="198">COCINA</text>
+        <rect class="map-roof" x="151" y="153" width="139" height="78" rx="6" />
+        <rect x="151" y="153" width="139" height="78" rx="6" fill="url(#map-roof-lines)" />
+        <text class="map-label map-label-light" x="220" y="188">JUEGOS</text>
+        <text class="map-label map-label-light map-label-small" x="220" y="203">TECHADOS</text>
+        <rect class="map-room map-bathroom" x="302" y="153" width="37" height="78" rx="4" />
+        <text class="map-label map-label-small map-label-vertical" x="321" y="192" transform="rotate(-90 321 192)">BAÑOS</text>
+        <rect class="map-patio" x="51" y="261" width="277" height="76" rx="8" />
+        <text class="map-label" x="184" y="302">PATIO CENTRAL</text>
+        <rect class="map-room map-office" x="49" y="361" width="103" height="61" rx="5" />
+        <text class="map-label map-label-small" x="100" y="395">DIRECCIÓN</text>
+        <rect class="map-garden" x="249" y="356" width="78" height="72" rx="6" />
+        <rect x="256" y="363" width="64" height="58" rx="4" fill="url(#map-garden-dots)" />
+        <text class="map-label map-label-small" x="288" y="448">ZONA SEGURA</text>
+        <rect class="map-room map-entry" x="82" y="451" width="216" height="47" rx="5" />
+        <path class="map-entry-door" d="M176 498V480H204V498" />
+        <text class="map-label map-label-light" x="190" y="473">ENTRADA</text>
+        <path class="map-north" d="M340 86V48M332 57L340 48L348 57" />
+        <text class="map-north-label" x="340" y="40">N</text>
+      </symbol>
+    </svg>
     <header class="topbar">
       <a class="brand" href="#inicio" aria-label="I.E. 007 Bellavista, inicio"><span class="brand-icon">✳</span><span>COLEGIO<span class="brand-dot">.</span></span></a>
       <div class="location"><span class="live-dot"></span><span>I.E. N.° 007 · BELLAVISTA</span></div>
-      <button id="sound" class="icon-button" aria-label="Activar sonido ambiente" title="Sonido ambiente"><span id="soundIcon">♬</span></button>
     </header>
     <section class="intro" id="intro">
       <p class="eyebrow"><span></span> CELENDÍN · CAJAMARCA</p>
@@ -30,17 +73,51 @@
       <button id="explore" class="explore-button"><span>Comenzar el recorrido</span><span class="arrow">↗</span></button>
       <div class="intro-note"><span class="note-line"></span> UNA MAQUETA PARA RECORRERSE</div>
     </section>
-    <aside class="place-card"><span class="card-index">01 <i>/ 06</i></span><div><span class="card-label">AHORA ESTÁS EN</span><strong id="placeName">Ingreso y patio</strong><span id="placeDetail" class="card-detail">Acceso principal, juegos y jardín</span></div><span class="card-sparkle">✳</span></aside>
-    <div class="scene-tools" aria-label="Opciones del recorrido"><button id="control-child" class="scene-tool">Controlar al niño</button><button id="follow-child" class="scene-tool">Seguir al niño</button><button id="toggle-walk" class="scene-tool">Pausar paseo</button><button id="toggle-labels" class="scene-tool">Ocultar nombres</button></div>
-    <div id="touch-controls" class="touch-controls" aria-label="Controles táctiles del niño">
-      <div class="touch-pad" aria-label="Dirección"><button class="touch-key touch-up" data-touch-key="ArrowUp" aria-label="Caminar hacia adelante">▲</button><button class="touch-key touch-left" data-touch-key="ArrowLeft" aria-label="Caminar hacia la izquierda">◀</button><button class="touch-key touch-down" data-touch-key="ArrowDown" aria-label="Caminar hacia atrás">▼</button><button class="touch-key touch-right" data-touch-key="ArrowRight" aria-label="Caminar hacia la derecha">▶</button></div>
-      <div class="touch-actions"><button class="touch-action" data-touch-key="ShiftLeft">CORRER</button><button id="touch-jump" class="touch-action touch-jump">SALTAR</button></div>
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-controls="journey-panel" aria-expanded="true" aria-label="Cerrar menú"><span class="menu-toggle-icon">☰</span><span>MENÚ</span><span class="menu-toggle-chevron" aria-hidden="true">⌃</span></button>
+    <aside id="journey-panel" class="journey-panel" aria-label="Panel de opciones del recorrido" aria-hidden="false">
+      <div class="panel-heading"><span>RECORRIDO</span><span class="panel-heading-mark">✳</span></div>
+      <section class="place-card" aria-label="Ubicación actual"><span class="card-index">01 <i>/ 06</i></span><div><span class="card-label">AHORA ESTÁS EN</span><strong id="placeName">Ingreso y patio</strong><span id="placeDetail" class="card-detail">Acceso principal, juegos y jardín</span></div></section>
+      <nav class="scene-nav" aria-label="Lugares del colegio"><span class="panel-section-label">DESTINOS</span><button class="nav-stop active" data-stop="entry"><span class="stop-dot"></span><span>Ingreso</span></button><button class="nav-stop" data-stop="central"><span class="stop-dot"></span><span>Bloque central</span></button><button class="nav-stop" data-stop="play"><span class="stop-dot"></span><span>Juegos y patio</span></button><button class="nav-stop" data-stop="green"><span class="stop-dot"></span><span>Áreas verdes</span></button><button class="nav-stop" data-stop="back"><span class="stop-dot"></span><span>Aulas del fondo</span></button><button class="nav-stop" data-stop="overview"><span class="stop-dot"></span><span>Vista aérea</span></button></nav>
+      <div class="scene-tools" aria-label="Opciones del recorrido"><span class="panel-section-label">CONTROLES</span><button id="control-child" class="scene-tool">Controlar al niño</button><button id="follow-child" class="scene-tool">Seguir al niño</button><button id="toggle-walk" class="scene-tool">Pausar paseo</button><button id="toggle-labels" class="scene-tool">Ocultar nombres</button></div>
+      <div id="touch-controls" class="touch-controls" aria-label="Controles táctiles del niño">
+        <div class="touch-pad" aria-label="Dirección"><button class="touch-key touch-up" data-touch-key="ArrowUp" aria-label="Caminar hacia adelante">▲</button><button class="touch-key touch-left" data-touch-key="ArrowLeft" aria-label="Caminar hacia la izquierda">◀</button><button class="touch-key touch-down" data-touch-key="ArrowDown" aria-label="Caminar hacia atrás">▼</button><button class="touch-key touch-right" data-touch-key="ArrowRight" aria-label="Caminar hacia la derecha">▶</button></div>
+        <div class="touch-actions"><button class="touch-action" data-touch-key="ShiftLeft">CORRER</button><button id="touch-jump" class="touch-action touch-jump">SALTAR</button></div>
+      </div>
+      <div class="panel-utilities"><button id="sound" class="panel-utility" aria-label="Activar sonido ambiente" title="Sonido ambiente"><span id="soundIcon">♬</span><span>Sonido ambiente</span></button><button id="fullscreen" class="panel-utility"><span>⛶</span><span>Pantalla completa</span></button></div>
+    </aside>
+    <button id="map-preview" class="map-preview" type="button" aria-controls="campus-map-layer" aria-expanded="false" aria-label="Ampliar mapa 2D del colegio">
+      <span class="map-preview-heading"><span>MAPA 2D</span><span class="map-preview-expand" aria-hidden="true">↗</span></span>
+      <svg class="campus-map-mini" viewBox="0 0 380 540" role="img" aria-label="Miniatura del plano del colegio"><use href="#school-map-art" /></svg>
+      <span class="map-preview-hint">TOCA PARA AMPLIAR</span>
+    </button>
+    <div id="campus-map-layer" class="campus-map-layer" aria-hidden="true">
+      <section class="campus-map-dialog" role="dialog" aria-modal="true" aria-labelledby="campus-map-title" tabindex="-1">
+        <header class="campus-map-header">
+          <div><span class="map-eyebrow">PLANO DEL COLEGIO</span><h2 id="campus-map-title">Mapa 2D</h2></div>
+          <button id="map-close" class="map-close" type="button" aria-label="Cerrar mapa">×</button>
+        </header>
+        <div class="campus-map-content">
+          <div class="campus-map-graphic"><svg class="campus-map-large" viewBox="0 0 380 540" role="img" aria-label="Mapa 2D del colegio"><use href="#school-map-art" /></svg></div>
+          <aside class="map-legend" aria-label="Leyenda del mapa">
+            <h3>Leyenda</h3>
+            <ul>
+              <li><span class="legend-swatch legend-entry"></span><span>Entrada principal</span></li>
+              <li><span class="legend-swatch legend-classroom"></span><span>Aulas</span></li>
+              <li><span class="legend-swatch legend-kitchen"></span><span>Cocina y Dirección</span></li>
+              <li><span class="legend-swatch legend-patio"></span><span>Patio y pasadizos</span></li>
+              <li><span class="legend-swatch legend-covered"></span><span>Juegos techados</span></li>
+              <li><span class="legend-swatch legend-garden"></span><span>Chacra / zona segura</span></li>
+              <li><span class="legend-swatch legend-bathroom"></span><span>Baños</span></li>
+            </ul>
+            <p class="map-legend-note"><span class="legend-north">↑ N</span> El ingreso principal está en la parte inferior del plano.</p>
+          </aside>
+        </div>
+      </section>
     </div>
-    <nav class="scene-nav" aria-label="Lugares del colegio"><button class="nav-stop active" data-stop="entry"><span class="stop-dot"></span><span>Ingreso</span></button><button class="nav-stop" data-stop="central"><span class="stop-dot"></span><span>Bloque central</span></button><button class="nav-stop" data-stop="play"><span class="stop-dot"></span><span>Juegos y patio</span></button><button class="nav-stop" data-stop="green"><span class="stop-dot"></span><span>Áreas verdes</span></button><button class="nav-stop" data-stop="back"><span class="stop-dot"></span><span>Aulas del fondo</span></button><button class="nav-stop" data-stop="overview"><span class="stop-dot"></span><span>Vista aérea</span></button></nav>
-    <div class="bottom-bar"><div class="hint"><span class="mouse-icon"><i></i></span><span>ARRASTRA PARA MIRAR <b>·</b> <span id="movement-hint">WASD PARA CAMINAR</span> <b>·</b> RUEDA PARA ALEJARTE</span></div><button id="fullscreen" class="fullscreen-button"><span>⛶</span> PANTALLA COMPLETA</button></div>
+    <div class="bottom-bar"><div class="hint"><span class="mouse-icon"><i></i></span><span>ARRASTRA PARA MIRAR <b>·</b> <span id="movement-hint">WASD PARA CAMINAR</span> <b>·</b> RUEDA PARA ALEJARTE</span></div></div>
     <div id="loading" class="loading"><span class="loader-mark">✳</span><span>PREPARANDO EL JARDÍN</span><div class="loading-track"><i></i></div></div>
     <div id="toast" class="toast" aria-live="polite"></div>
   </main>
-  <script type="module" src="./src/main.js?v=sin-saliente-entrada-20261123"></script>
+  <script type="module" src="./src/main.js?v=plano-2d-expandible-20261124"></script>
 </body>
 </html>
