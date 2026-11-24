@@ -120,7 +120,7 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   // The marked classroom entrance becomes the office entrance; face its sign toward the patio.
   directionSign.position.set(6.4,3.16,7.72);scene.add(directionSign);
   // Place the enlarged safe planting bed at the far end of the patio, away from Direction.
-  box(scene,7.13,.38,12.6,3.56,.52,4.8,soil,false,true);
+  const safeBedSoil=box(scene,7.13,.38,12.6,3.56,.52,4.8,soil,false,true);safeBedSoil.userData.walkSurface=true;
   for(const x of [5.35,8.91]){const rim=box(scene,x,.48,12.6,.18,.72,4.8,cap);rim.userData.bedRim=true;}
   for(const z of [10.2,15]){const rim=box(scene,7.13,.48,z,3.56,.72,.18,cap);rim.userData.bedRim=true;}
   // Replace the seedlings with small, separate spots of grass and exposed earth.

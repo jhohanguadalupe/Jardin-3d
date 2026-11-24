@@ -47,6 +47,11 @@
 .journey-panel .nav-stop:hover{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.09);color:#fff}
 .journey-panel .nav-stop.active{border-color:rgba(213,209,154,.35);background:rgba(213,209,154,.13);color:#fff}
 .journey-panel .stop-dot{flex:0 0 6px;width:6px;height:6px}
+.journey-panel .student-picker{display:grid;gap:6px}
+.student-picker label{color:rgba(247,245,222,.55);font-size:8px;font-weight:600;letter-spacing:.16em}
+.student-picker select{width:100%;min-height:36px;padding:7px 10px;border:1px solid rgba(255,255,255,.18);border-radius:7px;background:#26382e;color:#f8f7ee;font:500 10px 'DM Sans',sans-serif;cursor:pointer;outline:none}
+.student-picker select:focus{border-color:rgba(213,209,154,.7);box-shadow:0 0 0 2px rgba(213,209,154,.13)}
+.student-picker option{background:#26382e;color:#f8f7ee}
 .journey-panel .scene-tools{position:relative;inset:auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .journey-panel .scene-tool{min-width:0;min-height:37px;padding:7px 8px;border:1px solid rgba(255,255,255,.16);border-radius:7px;background:rgba(255,255,255,.055);color:rgba(255,255,255,.87);font-size:8px;line-height:1.3;letter-spacing:.07em;text-align:center}
 .journey-panel .scene-tool:hover,.journey-panel .scene-tool.active{border-color:rgba(213,209,154,.58);background:rgba(213,209,154,.16);color:#fff}
@@ -91,6 +96,18 @@
 .journey-panel.collapsed{visibility:hidden;opacity:0;pointer-events:none;transform:translateX(-16px)}
 @media(max-width:700px){.menu-toggle{left:12px;top:74px}.journey-panel{top:118px}}
 @media(max-height:760px){.menu-toggle{top:70px}.journey-panel{top:110px}}
+.emergency-tools{display:grid;grid-template-columns:1fr;gap:7px;padding-top:10px;border-top:1px solid rgba(255,255,255,.13)}
+.emergency-tools[hidden],.emergency-tools [hidden],.emergency-overlay[hidden]{display:none}
+.emergency-status{margin:0;padding:8px 9px;border:1px solid rgba(255,96,82,.28);border-radius:7px;background:rgba(139,34,29,.18);color:#ffd9d3;font-size:9px;line-height:1.45}
+.journey-panel .scene-tool.emergency-start{border-color:rgba(255,130,111,.4);background:rgba(160,53,43,.2);color:#ffe6de}
+.journey-panel .scene-tool.emergency-start:hover{border-color:rgba(255,160,140,.75);background:rgba(179,55,45,.35)}
+.journey-panel .scene-tool.emergency-stop{border-color:rgba(255,119,100,.64);background:rgba(173,43,35,.36);color:#fff1ed}
+.journey-panel .scene-tool.emergency-stop:hover{background:rgba(205,47,39,.5)}
+.journey-panel .scene-tool:disabled,.student-picker select:disabled{opacity:.48;cursor:not-allowed}
+.emergency-overlay{position:absolute;z-index:13;top:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;max-width:calc(100vw - 24px);padding:10px 15px;border:1px solid rgba(255,111,91,.72);border-radius:999px;background:rgba(92,17,16,.83);box-shadow:0 0 26px rgba(255,36,25,.28);backdrop-filter:blur(12px);color:#fff3ef;font-size:9px;font-weight:700;letter-spacing:.12em;text-align:center;animation:emergencyFlash 1s ease-in-out infinite}
+.emergency-beacon{width:19px;height:19px;display:grid;place-items:center;flex:0 0 auto;border-radius:50%;background:#ff3b32;color:#fff;font-size:12px;box-shadow:0 0 15px rgba(255,54,44,.8)}
+@keyframes emergencyFlash{0%,100%{border-color:rgba(255,111,91,.48);box-shadow:0 0 14px rgba(255,36,25,.18);filter:brightness(.86)}50%{border-color:rgba(255,176,158,.96);box-shadow:0 0 31px rgba(255,36,25,.55);filter:brightness(1.18)}}
+@media(max-width:700px){.emergency-overlay{top:12px;padding:8px 11px;font-size:7px;letter-spacing:.07em}}
 .map-symbols{position:absolute;width:0;height:0;overflow:hidden}
 .map-preview{position:absolute;z-index:4;right:clamp(18px,3vw,46px);top:clamp(78px,11vh,96px);width:174px;display:flex;flex-direction:column;gap:9px;padding:12px;border:1px solid rgba(238,236,207,.26);border-radius:12px;background:linear-gradient(145deg,rgba(30,47,37,.92),rgba(22,35,28,.86));box-shadow:0 16px 38px rgba(5,13,9,.3);backdrop-filter:blur(16px);color:#f8f7ee;text-align:left;cursor:pointer;transition:transform .2s,border-color .2s,background .2s}
 .map-preview:hover{transform:translateY(-3px);border-color:rgba(213,209,154,.58);background:rgba(30,47,37,.97)}

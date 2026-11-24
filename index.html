@@ -78,8 +78,15 @@
       <div class="panel-heading"><span>RECORRIDO</span><span class="panel-heading-mark">✳</span></div>
       <section class="place-card" aria-label="Ubicación actual"><span class="card-index">01 <i>/ 06</i></span><div><span class="card-label">AHORA ESTÁS EN</span><strong id="placeName">Ingreso y patio</strong><span id="placeDetail" class="card-detail">Acceso principal, juegos y jardín</span></div></section>
       <nav class="scene-nav" aria-label="Lugares del colegio"><span class="panel-section-label">DESTINOS</span><button class="nav-stop active" data-stop="entry"><span class="stop-dot"></span><span>Ingreso</span></button><button class="nav-stop" data-stop="central"><span class="stop-dot"></span><span>Bloque central</span></button><button class="nav-stop" data-stop="play"><span class="stop-dot"></span><span>Juegos y patio</span></button><button class="nav-stop" data-stop="green"><span class="stop-dot"></span><span>Áreas verdes</span></button><button class="nav-stop" data-stop="back"><span class="stop-dot"></span><span>Aulas del fondo</span></button><button class="nav-stop" data-stop="overview"><span class="stop-dot"></span><span>Vista aérea</span></button></nav>
-      <div class="scene-tools" aria-label="Opciones del recorrido"><span class="panel-section-label">CONTROLES</span><button id="control-child" class="scene-tool">Controlar al niño</button><button id="follow-child" class="scene-tool">Seguir al niño</button><button id="toggle-walk" class="scene-tool">Pausar paseo</button><button id="toggle-labels" class="scene-tool">Ocultar nombres</button></div>
-      <div id="touch-controls" class="touch-controls" aria-label="Controles táctiles del niño">
+      <div class="student-picker"><label for="student-select">ELIGE A QUIÉN CONTROLAR</label><select id="student-select" aria-label="Elige a la niña para controlar"><option value="0">Tatiana</option><option value="1">Sandrita</option><option value="2">Karen</option><option value="3">Ana</option><option value="4">Nelita</option><option value="5">Aracely</option></select></div>
+      <section class="emergency-tools" aria-label="Simulacro de emergencia">
+        <span class="panel-section-label">EMERGENCIAS</span>
+        <p id="emergency-status" class="emergency-status" role="status" hidden>Simulacro activo · Todas van a la zona segura</p>
+        <button id="start-drill" class="scene-tool emergency-start" type="button">Iniciar simulacro</button>
+        <button id="stop-drill" class="scene-tool emergency-stop" type="button" hidden>Detener simulacro</button>
+      </section>
+      <div class="scene-tools" aria-label="Opciones del recorrido"><span class="panel-section-label">CONTROLES</span><button id="control-child" class="scene-tool">Controlar a Tatiana</button><button id="follow-child" class="scene-tool">Seguir a Tatiana</button><button id="toggle-walk" class="scene-tool">Pausar paseo</button><button id="toggle-labels" class="scene-tool">Ocultar nombres</button></div>
+      <div id="touch-controls" class="touch-controls" aria-label="Controles táctiles de Tatiana">
         <div class="touch-pad" aria-label="Dirección"><button class="touch-key touch-up" data-touch-key="ArrowUp" aria-label="Caminar hacia adelante">▲</button><button class="touch-key touch-left" data-touch-key="ArrowLeft" aria-label="Caminar hacia la izquierda">◀</button><button class="touch-key touch-down" data-touch-key="ArrowDown" aria-label="Caminar hacia atrás">▼</button><button class="touch-key touch-right" data-touch-key="ArrowRight" aria-label="Caminar hacia la derecha">▶</button></div>
         <div class="touch-actions"><button class="touch-action" data-touch-key="ShiftLeft">CORRER</button><button id="touch-jump" class="touch-action touch-jump">SALTAR</button></div>
       </div>
@@ -114,10 +121,11 @@
         </div>
       </section>
     </div>
+    <div id="emergency-overlay" class="emergency-overlay" role="status" aria-live="assertive" hidden><span class="emergency-beacon" aria-hidden="true">!</span><span>SIMULACRO DE EMERGENCIA · DIRÍJANSE A ZONA SEGURA</span></div>
     <div class="bottom-bar"><div class="hint"><span class="mouse-icon"><i></i></span><span>ARRASTRA PARA MIRAR <b>·</b> <span id="movement-hint">WASD PARA CAMINAR</span> <b>·</b> RUEDA PARA ALEJARTE</span></div></div>
     <div id="loading" class="loading"><span class="loader-mark">✳</span><span>PREPARANDO EL JARDÍN</span><div class="loading-track"><i></i></div></div>
     <div id="toast" class="toast" aria-live="polite"></div>
   </main>
-  <script type="module" src="./src/main.js?v=plano-2d-expandible-20261124"></script>
+  <script type="module" src="./src/main.js?v=simulacro-chacra-20261124"></script>
 </body>
 </html>
