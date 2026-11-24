@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { buildSchool } from './school.js?v=techo-restaurado-20261122';
+import { buildSchool } from './school.js?v=sin-saliente-entrada-20261123';
 import { createChildCharacter } from './child.js';
 
 const mount=document.querySelector('#scene');
