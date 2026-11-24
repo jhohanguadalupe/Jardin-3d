@@ -101,10 +101,11 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   // Expand the confirmed dining area toward the back wall and both patio sides,
   // while preserving clear gaps between seating groups for circulation.
   for(const cx of [-8,-5.2,-2.5])for(const cz of [8.9,11.5,14]){
+    // Leave the row beside the PATIO sign completely open.
+    if(cz===8.9)continue;
     box(scene,cx,.78,cz,.9,.12,.64,timber);
     for(const dx of [-.34,.34])for(const dz of [-.22,.22])box(scene,cx+dx,.4,cz+dz,.06,.68,.06,darkWood);
-    // Keep the row along the PATIO side clear of chairs.
-    if(cz!==8.9)for(const side of [-1,1]){
+    for(const side of [-1,1]){
       const chairZ=cz+side*.55;
       box(scene,cx,.5,chairZ,.38,.1,.38,timber);
       for(const dx of [-.12,.12])for(const dz of [-.12,.12])box(scene,cx+dx,.27,chairZ+dz,.045,.46,.045,darkWood);
