@@ -103,8 +103,8 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   for(const cx of [-8,-5.2,-2.5])for(const cz of [8.9,11.5,14]){
     box(scene,cx,.78,cz,.9,.12,.64,timber);
     for(const dx of [-.34,.34])for(const dz of [-.22,.22])box(scene,cx+dx,.4,cz+dz,.06,.68,.06,darkWood);
-    // The row nearest the PATIO sign stays clear of chairs.
-    if(cx!==-2.5)for(const side of [-1,1]){
+    // Keep the row along the PATIO side clear of chairs.
+    if(cz!==8.9)for(const side of [-1,1]){
       const chairZ=cz+side*.55;
       box(scene,cx,.5,chairZ,.38,.1,.38,timber);
       for(const dx of [-.12,.12])for(const dz of [-.12,.12])box(scene,cx+dx,.27,chairZ+dz,.045,.46,.045,darkWood);
