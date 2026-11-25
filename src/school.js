@@ -115,7 +115,7 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   // Reverse-L dining-room partition: horizontal edge by the chair row and
   // vertical edge on the right side of the table group, viewed from the reference angle.
   addWall(-1.9,15,9.4,15,3.53,.18,wall);
-  addWall(-1.9,8.9,-1.9,15,3.53,.18,wall);
+  addWall(-1.9,7.6,-1.9,15,3.53,.18,wall);
   // Close the former office entrance in the entry-facing wall.
   addWall(-10.2,15.72,.7,15.72,3.55,.18,wall);
   addWall(4.7,15.72,9.4,15.72,3.55,.18,wall);
