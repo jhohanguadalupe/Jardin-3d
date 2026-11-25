@@ -116,6 +116,19 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   // Keep 7 cm of clearance from the chairs on both legs; do not extend to the exterior wall.
   addWall(-8.6,10.575,-2.15,10.575,3.53,.18,wall);
   addWall(-2.15,10.575,-2.15,15,3.53,.18,wall);
+  // Storage door fills the opening to the left of the horizontal partition and swings inward.
+  const storageDoorZ=10.575,storageDoorCenterX=-9.25,storageDoorLeftX=-9.71;
+  box(scene,-9.77,1.12,storageDoorZ,.12,2.24,.22,blue);
+  box(scene,-8.73,1.12,storageDoorZ,.12,2.24,.22,blue);
+  box(scene,storageDoorCenterX,2.24,storageDoorZ,1.16,.16,.24,blue);
+  const storageDoorLeaf=new THREE.Group();storageDoorLeaf.position.set(storageDoorLeftX,.06,storageDoorZ);storageDoorLeaf.rotation.y=Math.PI/2;scene.add(storageDoorLeaf);
+  box(storageDoorLeaf,.46,1.08,0,.92,2.08,.12,blue);
+  box(storageDoorLeaf,.82,1.08,.08,.06,.08,.04,mat('#c6a56a',.35,{metalness:.65}));
+  storageDoorLeaf.traverse(object=>{if(object.isMesh)object.userData.walkSolid=false;});
+  const storageSignCanvas=document.createElement('canvas');storageSignCanvas.width=900;storageSignCanvas.height=180;
+  const storageSignCtx=storageSignCanvas.getContext('2d');storageSignCtx.clearRect(0,0,900,180);storageSignCtx.textAlign='center';storageSignCtx.textBaseline='middle';storageSignCtx.font='800 104px Arial';storageSignCtx.fillStyle='#d86143';storageSignCtx.shadowColor='rgba(70,45,30,.32)';storageSignCtx.shadowOffsetY=5;storageSignCtx.shadowBlur=3;storageSignCtx.fillText('ALMACEN',450,90);
+  const storageSignTexture=new THREE.CanvasTexture(storageSignCanvas);storageSignTexture.colorSpace=THREE.SRGBColorSpace;
+  const storageSign=new THREE.Mesh(new THREE.PlaneGeometry(1.75,.35),new THREE.MeshBasicMaterial({map:storageSignTexture,transparent:true,depthWrite:false,side:THREE.DoubleSide}));storageSign.position.set(storageDoorCenterX,2.55,storageDoorZ+.17);scene.add(storageSign);
   // Close the former office entrance in the entry-facing wall.
   addWall(-10.2,15.72,.7,15.72,3.55,.18,wall);
   addWall(4.7,15.72,9.4,15.72,3.55,.18,wall);
