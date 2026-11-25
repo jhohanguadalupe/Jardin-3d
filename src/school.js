@@ -19,7 +19,17 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
     const seam=box(scene,x,.205,z,1.24,.025,.025,mat('#aaa18e'),false,true);seam.rotation.y=(Math.floor((z+18.2)/1.15)%2)*.04;
   }
   const campusWall=wall;
-  addWall(-8.8,-19,8.8,-19,2.9,.26,campusWall);addWall(-8.8,-19,-9.597,2.75,2.65,.26,campusWall);addWall(-9.597,2.75,-10.069,15.64,3.53,.26,campusWall);addWall(-10.069,15.64,-10.2,19.2,3.53,.26,campusWall);addWall(8.8,-19,9.4,17.5,3.53,.26,campusWall);
+  const storageDoorAngle=-Math.atan2(15.64-2.75,-10.069+9.597),storageDoorCenterZ=10.85;
+  const storageDoorCenterX=-9.597+(storageDoorCenterZ-2.75)*(-.472/12.89),storageDoorHalfWidth=.58;
+  const storageDoorStartX=storageDoorCenterX-Math.cos(storageDoorAngle)*storageDoorHalfWidth,storageDoorStartZ=storageDoorCenterZ+Math.sin(storageDoorAngle)*storageDoorHalfWidth;
+  const storageDoorEndX=storageDoorCenterX+Math.cos(storageDoorAngle)*storageDoorHalfWidth,storageDoorEndZ=storageDoorCenterZ-Math.sin(storageDoorAngle)*storageDoorHalfWidth;
+  addWall(-8.8,-19,8.8,-19,2.9,.26,campusWall);addWall(-8.8,-19,-9.597,2.75,2.65,.26,campusWall);
+  // Cut the storage doorway into the left perimeter wall at the green-marked side.
+  addWall(-9.597,2.75,storageDoorStartX,storageDoorStartZ,3.53,.26,campusWall);
+  addWall(storageDoorEndX,storageDoorEndZ,-10.069,15.64,3.53,.26,campusWall);
+  const storageDoorHeader=box(scene,storageDoorCenterX,2.885,storageDoorCenterZ,1.16,1.29,.26,campusWall);
+  storageDoorHeader.rotation.y=storageDoorAngle;storageDoorHeader.userData.walkSolid=false;
+  addWall(-10.069,15.64,-10.2,19.2,3.53,.26,campusWall);addWall(8.8,-19,9.4,17.5,3.53,.26,campusWall);
   // The street-facing school wall is continuous except for the main entrance.
   addWall(-10.2,19.2,1.35,18.2,3.53,.3,wall);addWall(4.05,17.95,9.4,17.5,3.53,.3,wall);
   for(const [x,z] of [[1.38,18.18],[4.02,17.96]])box(scene,x,1.68,z,.2,3.28,.34,blue);
@@ -116,19 +126,18 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   // Keep 7 cm of clearance from the chairs on both legs; do not extend to the exterior wall.
   addWall(-8.6,10.575,-2.15,10.575,3.53,.18,wall);
   addWall(-2.15,10.575,-2.15,15,3.53,.18,wall);
-  // Storage door fills the opening to the left of the horizontal partition and swings inward.
-  const storageDoorZ=10.575,storageDoorCenterX=-9.25,storageDoorLeftX=-9.71;
-  box(scene,-9.77,1.12,storageDoorZ,.12,2.24,.22,blue);
-  box(scene,-8.73,1.12,storageDoorZ,.12,2.24,.22,blue);
-  box(scene,storageDoorCenterX,2.24,storageDoorZ,1.16,.16,.24,blue);
-  const storageDoorLeaf=new THREE.Group();storageDoorLeaf.position.set(storageDoorLeftX,.06,storageDoorZ);storageDoorLeaf.rotation.y=Math.PI/9;scene.add(storageDoorLeaf);
+  // Blue storage door sits in the left-side wall opening and swings into the school.
+  const storageDoorFrame=new THREE.Group();storageDoorFrame.position.set(storageDoorCenterX,0,storageDoorCenterZ);storageDoorFrame.rotation.y=storageDoorAngle;scene.add(storageDoorFrame);
+  box(storageDoorFrame,-.52,1.12,0,.12,2.24,.22,blue);box(storageDoorFrame,.52,1.12,0,.12,2.24,.22,blue);box(storageDoorFrame,0,2.24,0,1.16,.16,.24,blue);
+  const storageDoorHinge=new THREE.Group();storageDoorHinge.position.set(storageDoorStartX,.06,storageDoorStartZ);storageDoorHinge.rotation.y=storageDoorAngle+Math.PI/2;scene.add(storageDoorHinge);
+  const storageDoorLeaf=storageDoorHinge;
   box(storageDoorLeaf,.46,1.08,0,.92,2.08,.12,blue);
   box(storageDoorLeaf,.82,1.08,.08,.06,.08,.04,mat('#c6a56a',.35,{metalness:.65}));
   storageDoorLeaf.traverse(object=>{if(object.isMesh)object.userData.walkSolid=false;});
   const storageSignCanvas=document.createElement('canvas');storageSignCanvas.width=900;storageSignCanvas.height=180;
   const storageSignCtx=storageSignCanvas.getContext('2d');storageSignCtx.clearRect(0,0,900,180);storageSignCtx.textAlign='center';storageSignCtx.textBaseline='middle';storageSignCtx.font='800 104px Arial';storageSignCtx.fillStyle='#d86143';storageSignCtx.shadowColor='rgba(70,45,30,.32)';storageSignCtx.shadowOffsetY=5;storageSignCtx.shadowBlur=3;storageSignCtx.fillText('ALMACEN',450,90);
   const storageSignTexture=new THREE.CanvasTexture(storageSignCanvas);storageSignTexture.colorSpace=THREE.SRGBColorSpace;
-  const storageSign=new THREE.Mesh(new THREE.PlaneGeometry(1.75,.35),new THREE.MeshBasicMaterial({map:storageSignTexture,transparent:true,depthWrite:false,side:THREE.DoubleSide}));storageSign.position.set(storageDoorCenterX,2.55,storageDoorZ+.17);scene.add(storageSign);
+  const storageSign=new THREE.Mesh(new THREE.PlaneGeometry(1.75,.35),new THREE.MeshBasicMaterial({map:storageSignTexture,transparent:true,depthWrite:false,side:THREE.DoubleSide}));storageSign.position.set(storageDoorCenterX+.17,2.55,storageDoorCenterZ);storageSign.rotation.y=storageDoorAngle+Math.PI;scene.add(storageSign);
   // Close the former office entrance in the entry-facing wall.
   addWall(-10.2,15.72,.7,15.72,3.55,.18,wall);
   addWall(4.7,15.72,9.4,15.72,3.55,.18,wall);
