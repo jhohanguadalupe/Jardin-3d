@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { buildSchool } from './school.js?v=puerta-almacen-hueco-pasillo-20261124';
+import { buildSchool } from './school.js?v=sembrio-zona-segura-20261125';
 import { createChildCharacter } from './child.js?v=recorridos-diferentes-20261124';
 
 const mount=document.querySelector('#scene');
@@ -23,8 +23,8 @@ const school=buildSchool({scene,mat,box,cylinder,grass:lawn,stone,wood,trim});
 
 // Area names remain white floating letters, styled like the garden's existing scene labels.
 const labelGroup=new THREE.Group();scene.add(labelGroup);
-function areaLabel(text,x,y,z,width=3){const c=document.createElement('canvas');c.width=1024;c.height=192;const q=c.getContext('2d');q.textAlign='center';q.textBaseline='middle';q.font='700 72px "DM Sans",Arial,sans-serif';q.shadowColor='rgba(7,15,10,.9)';q.shadowBlur=12;q.shadowOffsetY=5;q.lineWidth=5;q.strokeStyle='rgba(11,20,14,.66)';q.strokeText(text,512,96);q.fillStyle='#fffdf4';q.fillText(text,512,96);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthWrite:false,alphaTest:.02}));s.position.set(x,y,z);s.scale.set(width,width*.22,1);labelGroup.add(s);}
-areaLabel('INGRESO',2.7,3.35,17.65,3.1);areaLabel('PATIO',2.7,4.2,9.2,2.8);areaLabel('ZONA SEGURA',7.13,3.4,12.6,3.8);areaLabel('COCINA',-6.5,3.35,4.7,2.8);areaLabel('JUEGOS TECHADOS',-3.15,5.25,-3.7,4.8);areaLabel('BAÑOS',7.7,3.6,-5.6,2.8);areaLabel('AULA 01',-4.65,4.0,-15.2,3.2);areaLabel('AULA 02',4.65,4.0,-15.2,3.2);
+function areaLabel(text,x,y,z,width=3,color='#fffdf4'){const c=document.createElement('canvas');c.width=1024;c.height=192;const q=c.getContext('2d');q.textAlign='center';q.textBaseline='middle';q.font='700 72px "DM Sans",Arial,sans-serif';q.shadowColor='rgba(7,15,10,.9)';q.shadowBlur=12;q.shadowOffsetY=5;q.lineWidth=5;q.strokeStyle='rgba(11,20,14,.66)';q.strokeText(text,512,96);q.fillStyle=color;q.fillText(text,512,96);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthWrite:false,alphaTest:.02}));s.position.set(x,y,z);s.scale.set(width,width*.22,1);labelGroup.add(s);}
+ areaLabel('INGRESO',2.7,3.35,17.65,3.1);areaLabel('PATIO',2.7,4.2,9.2,2.8);areaLabel('COMEDOR',-5.2,4.1,12.4,3.4);areaLabel('ZONA SEGURA',7.13,3.4,12.6,3.8);areaLabel('COCINA',-6.5,4.0,4.7,2.8);areaLabel('AULA DE 3 AÑOS',-.85,4.0,5.45,3.2);areaLabel('ZONA NO SEGURA',-.85,3.2,5.45,3.0,'#e06b55');areaLabel('JUEGOS TECHADOS',-3.15,5.25,-3.7,4.8);areaLabel('BAÑOS',7.7,3.6,-5.6,2.8);areaLabel('AULA DE 4 AÑOS',-4.65,4.0,-15.2,3.2);areaLabel('AULA DE 5 AÑOS',4.65,4.0,-15.2,3.2);
 
 const campusWaypoints=[
   [2.7,17.05],[2.7,12.5],[-3.9,12.25],[-7.2,12.3],[-4.1,12.3],[2.5,12.2],[4.15,12.0],[4.15,9.65],[3.3,9.2],[2.7,8.1],[2.7,1.1],[-2.5,.7],[-4.9,-.2],[-6.3,-.55],[-7.4,-1.7],[-7.1,-3.1],[-5.8,-2.8],[-4.7,-.7],[-1.2,-1.2],[-1.2,-5.5],[.7,-5.5],[.7,-9.85],[0,-12.2],[0,-17],[0,-12.2],[-1.5,-9.8],[-4,-8.5],[-1.2,-5.9],[.7,-5.9],[.7,-1],[.7,.15],[2.7,.15],[2.7,1],[2.7,8],[2.7,12],[2.7,17.05]
@@ -44,7 +44,7 @@ const students=studentNames.map((name,index)=>{
   const spawn=spawnPositions[index],routeTargets=[[...spawn],[spawn[0],16.15],[2.7,15.55],...studentRouteIndices[index].map(i=>campusWaypoints[i]),[2.7,17.05],[...spawn]];
   const character=createChildCharacter(name,index),forward=new THREE.Vector3(0,0,-1);
   character.root.position.set(spawn[0],.2,spawn[1]);character.root.rotation.y=Math.atan2(forward.x,forward.z);scene.add(character.root);
-  return {name,character,routeTargets,routeTargetIndex:1,navPath:null,navPathIndex:0,navKey:'',navRetry:0,forward,startDelay:index*.7,emergencyPhase:null,emergencyDelay:index*.35,emergencyJumpVelocity:0,emergencySlot:10.6+index*.78};
+  return {name,character,routeTargets,routeTargetIndex:1,navPath:null,navPathIndex:0,navKey:'',navRetry:0,navBlockedTime:0,avoidanceSide:index%2===0?1:-1,forward,startDelay:index*.7,emergencyPhase:null,emergencyDelay:index*.35,emergencyJumpVelocity:0,emergencySlot:10.6+index*.78};
 });
 let activeStudentIndex=0,child=students[0].character,childForward=students[0].forward;
 let isWalking=true,followChild=false,controlled=false,manualMoving=false,labelsVisible=true,jumpRequested=false,jumpVelocity=0,drillActive=false;
@@ -73,10 +73,14 @@ document.querySelector('#explore').addEventListener('click',()=>goTo('entry'));d
 const journeyPanel=document.querySelector('#journey-panel'),menuToggle=document.querySelector('#menu-toggle');
 menuToggle.addEventListener('click',()=>{const collapsed=journeyPanel.classList.toggle('collapsed');menuToggle.setAttribute('aria-expanded',String(!collapsed));menuToggle.setAttribute('aria-label',collapsed?'Abrir menú':'Cerrar menú');menuToggle.querySelector('.menu-toggle-chevron').textContent=collapsed?'⌄':'⌃';journeyPanel.setAttribute('aria-hidden',String(collapsed));journeyPanel.inert=collapsed;});
 const mapPreview=document.querySelector('#map-preview'),mapLayer=document.querySelector('#campus-map-layer'),mapClose=document.querySelector('#map-close');
+const mapSafetyOpen=document.querySelector('#map-safety-open'),mapSafetyLayer=document.querySelector('#map-safety-layer'),mapSafetyClose=document.querySelector('#map-safety-close');
 function setMapOpen(open){mapLayer.classList.toggle('open',open);mapLayer.setAttribute('aria-hidden',String(!open));mapPreview.setAttribute('aria-expanded',String(open));if(open)mapClose.focus();else mapPreview.focus();}
+function setMapSafetyOpen(open){mapSafetyLayer.classList.toggle('open',open);mapSafetyLayer.setAttribute('aria-hidden',String(!open));if(open)mapSafetyClose.focus();else mapSafetyOpen.focus();}
 mapPreview.addEventListener('click',()=>setMapOpen(true));mapClose.addEventListener('click',()=>setMapOpen(false));
+mapSafetyOpen.addEventListener('click',()=>setMapSafetyOpen(true));mapSafetyClose.addEventListener('click',()=>setMapSafetyOpen(false));
 mapLayer.addEventListener('click',event=>{if(event.target===mapLayer)setMapOpen(false);});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&mapLayer.classList.contains('open'))setMapOpen(false);});
+mapSafetyLayer.addEventListener('click',event=>{if(event.target===mapSafetyLayer)setMapSafetyOpen(false);});
+document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(mapSafetyLayer.classList.contains('open'))setMapSafetyOpen(false);else if(mapLayer.classList.contains('open'))setMapOpen(false);});
 function syncControls(){const name=students[activeStudentIndex].name;document.querySelector('#follow-child').classList.toggle('active',followChild&&!controlled);document.querySelector('#follow-child').textContent=`Seguir a ${name}`;document.querySelector('#control-child').classList.toggle('active',controlled);document.querySelector('#control-child').textContent=controlled?'Dejar de controlar':`Controlar a ${name}`;document.querySelector('#touch-controls').setAttribute('aria-label',`Controles táctiles de ${name}`);document.querySelector('#toggle-walk').textContent=isWalking?'Pausar paseo':'Reanudar paseo';document.querySelector('#toggle-labels').textContent=labelsVisible?'Ocultar nombres':'Mostrar nombres';document.querySelector('#movement-hint').textContent=controlled?'FLECHAS: MOVER · SHIFT: CORRER · ESPACIO: SALTAR':'WASD PARA CAMINAR';document.querySelector('#touch-controls').classList.toggle('visible',controlled);document.querySelector('.experience').classList.toggle('controlling',controlled);}
 document.querySelector('#follow-child').addEventListener('click',()=>{if(controlled||drillActive)return;followChild=!followChild;travelling=false;document.querySelector('#intro').classList.add('hidden');syncControls();});
 let lastFollowTarget=new THREE.Vector3();
@@ -135,16 +139,31 @@ function buildWalkPath(startX,startZ,goalX,goalZ){
   const smooth=[raw[0]];let anchor=0;while(anchor<raw.length-1){let next=raw.length-1;while(next>anchor+1&&!pathIsClear(raw[anchor],raw[next]))next--;smooth.push(raw[next]);anchor=next;}
   const exactStart={x:startX,z:startZ},exactGoal={x:goalX,z:goalZ};if(!collidesWithStatic(startX,startZ,.2)&&pathIsClear(exactStart,smooth[0]))smooth.unshift(exactStart);if(!collidesWithStatic(goalX,goalZ,.2)&&pathIsClear(smooth.at(-1),exactGoal))smooth.push(exactGoal);return smooth;
 }
+function studentTrafficIsClear(student,x,z,clearance=.53){return students.every(other=>other===student||Math.hypot(x-other.character.root.position.x,z-other.character.root.position.z)>=clearance);}
 function moveStudentToward(student,goal,dt,speed,key){
   const p=student.character.root.position;student.lastMoveDistance=0;
-  if(student.navKey!==key){student.navKey=key;student.navPath=null;student.navRetry=0;student.navPathIndex=0;}
-  if(!student.navPath){student.navRetry-=dt;if(student.navRetry>0)return false;student.navPath=buildWalkPath(p.x,p.z,goal[0],goal[1]);student.navRetry=student.navPath?0:.6;if(!student.navPath)return false;student.navPathIndex=student.navPath.length>1?1:0;}
-  while(student.navPathIndex<student.navPath.length){const point=student.navPath[student.navPathIndex];if(Math.hypot(point.x-p.x,point.z-p.z)>.18)break;student.navPathIndex++;}
-  if(student.navPathIndex>=student.navPath.length)return true;
+  if(student.navKey!==key){student.navKey=key;student.navPath=null;student.navRetry=0;student.navPathIndex=0;student.navBlockedTime=0;}
+  if(!student.navPath){student.navRetry=Math.max(0,student.navRetry-dt);if(student.navRetry>0)return false;student.navPath=buildWalkPath(p.x,p.z,goal[0],goal[1]);student.navRetry=student.navPath?0:.25;if(!student.navPath)return false;student.navPathIndex=student.navPath.length>1?1:0;}
+  while(student.navPathIndex<student.navPath.length){const point=student.navPath[student.navPathIndex];if(Math.hypot(point.x-p.x,point.z-p.z)>.14)break;student.navPathIndex++;}
+  if(student.navPathIndex>=student.navPath.length){student.navBlockedTime=0;return true;}
   const point=student.navPath[student.navPathIndex],distance=Math.hypot(point.x-p.x,point.z-p.z),step=Math.min(speed*dt,distance);if(step<1e-5)return false;
-  const baseX=(point.x-p.x)/distance,baseZ=(point.z-p.z)/distance,candidateAngles=[0,.48,-.48,.95,-.95,1.42,-1.42,2.05,-2.05,Math.PI];let chosen=null;
-  for(const angle of candidateAngles){const dx=(baseX*Math.cos(angle)-baseZ*Math.sin(angle))*step,dz=(baseX*Math.sin(angle)+baseZ*Math.cos(angle))*step,nx=p.x+dx,nz=p.z+dz;if(collidesWithStatic(nx,nz,p.y))continue;if(students.some(other=>other!==student&&Math.hypot(nx-other.character.root.position.x,nz-other.character.root.position.z)<.68))continue;chosen={nx,nz};break;}
-  if(!chosen)return false;const dx=chosen.nx-p.x,dz=chosen.nz-p.z;student.lastMoveDistance=Math.hypot(dx,dz);p.x=chosen.nx;p.z=chosen.nz;if(!student.emergencyPhase?.startsWith('jump')&&!student.emergencyPhase?.startsWith('landing'))p.y=floorHeightAt(p.x,p.z);student.forward.set(dx,0,dz).normalize();student.character.root.rotation.y=Math.atan2(dx,dz);return false;
+  const baseX=(point.x-p.x)/distance,baseZ=(point.z-p.z)/distance;
+  // Probe a deterministic steering fan. Alternating side preference prevents pairs
+  // of children from making the same sidestep and blocking one another in corridors.
+  const candidateAngles=[0];for(let i=1;i<=7;i++){const angle=i*.19*student.avoidanceSide;candidateAngles.push(angle,-angle);}
+  candidateAngles.push(1.42*student.avoidanceSide,-1.42*student.avoidanceSide,Math.PI*.5*student.avoidanceSide,-Math.PI*.5*student.avoidanceSide);
+  const nearestStudentBefore=Math.min(Infinity,...students.filter(other=>other!==student).map(other=>Math.hypot(p.x-other.character.root.position.x,p.z-other.character.root.position.z)));
+  let chosen=null,bestScore=-Infinity;
+  for(const angle of candidateAngles){const dirX=baseX*Math.cos(angle)-baseZ*Math.sin(angle),dirZ=baseX*Math.sin(angle)+baseZ*Math.cos(angle),nx=p.x+dirX*step,nz=p.z+dirZ*step;
+    // Sweep the full step so a frame hitch cannot skip through a narrow collider.
+    let clear=true;const checks=Math.max(1,Math.ceil(step/.09));for(let sample=1;sample<=checks;sample++){const t=sample/checks,x=p.x+(nx-p.x)*t,z=p.z+(nz-p.z)*t;if(collidesWithStatic(x,z,p.y)||!studentTrafficIsClear(student,x,z)){clear=false;break;}}
+    if(!clear)continue;const nextDistance=Math.hypot(point.x-nx,point.z-nz),progress=distance-nextDistance;
+    const nearestStudentAfter=Math.min(Infinity,...students.filter(other=>other!==student).map(other=>Math.hypot(nx-other.character.root.position.x,nz-other.character.root.position.z))),detourGain=Number.isFinite(nearestStudentBefore)&&Number.isFinite(nearestStudentAfter)?nearestStudentAfter-nearestStudentBefore:0;
+    if(progress<-step*.08&&detourGain<.003)continue;
+    const sideBonus=Math.sign(angle)===student.avoidanceSide?0.012:0,score=progress-Math.abs(angle)*step*.075+sideBonus+Math.max(0,detourGain)*.5;if(score>bestScore){bestScore=score;chosen={nx,nz};}
+  }
+  if(!chosen){student.navBlockedTime+=dt;if(student.navBlockedTime>=.42){student.navPath=null;student.navPathIndex=0;student.navRetry=0;student.navBlockedTime=0;}return false;}
+  student.navBlockedTime=0;const dx=chosen.nx-p.x,dz=chosen.nz-p.z;student.lastMoveDistance=Math.hypot(dx,dz);p.x=chosen.nx;p.z=chosen.nz;if(!student.emergencyPhase?.startsWith('jump')&&!student.emergencyPhase?.startsWith('landing'))p.y=floorHeightAt(p.x,p.z);student.forward.set(dx,0,dz).normalize();student.character.root.rotation.y=Math.atan2(dx,dz);return false;
 }
 function updateEmergencyStudent(student,dt){
   const actor=student.character,p=actor.root.position,phase=student.emergencyPhase;student.lastMoveDistance=0;
@@ -154,10 +173,10 @@ function updateEmergencyStudent(student,dt){
   }
   const jumping=phase==='jump-in'||phase==='jump-out',landing=phase==='landing-in'||phase==='landing-out';if(!jumping&&!landing)return false;
   if(jumping){student.emergencyJumpVelocity-=12.5*dt;p.y+=student.emergencyJumpVelocity*dt;const targetX=phase==='jump-in'?5.82:4.55,delta=targetX-p.x,step=Math.min(Math.abs(delta),2.55*dt),nx=p.x+Math.sign(delta)*step;
-    if(step>.0001&&!collidesWithStatic(nx,p.z,p.y)&&!students.some(other=>other!==student&&Math.hypot(nx-other.character.root.position.x,p.z-other.character.root.position.z)<.68)){p.x=nx;student.lastMoveDistance=step;student.forward.set(Math.sign(delta),0,0);actor.root.rotation.y=Math.atan2(student.forward.x,student.forward.z);}
+    if(step>.0001&&!collidesWithStatic(nx,p.z,p.y)&&studentTrafficIsClear(student,nx,p.z,.53)){p.x=nx;student.lastMoveDistance=step;student.forward.set(Math.sign(delta),0,0);actor.root.rotation.y=Math.atan2(student.forward.x,student.forward.z);}
     if(Math.abs(targetX-p.x)<.035){student.emergencyPhase=phase==='jump-in'?'landing-in':'landing-out';student.navPath=null;}
   }else{student.emergencyJumpVelocity-=12.5*dt;p.y+=student.emergencyJumpVelocity*dt;}
-  const ground=floorHeightAt(p.x,p.z);if(p.y<=ground&&student.emergencyJumpVelocity<=0){p.y=ground;student.emergencyJumpVelocity=0;if(student.emergencyPhase==='landing-in'){student.emergencyPhase=drillActive?'safe':'jump-out';if(student.emergencyPhase==='jump-out')student.emergencyJumpVelocity=4.45;}else if(student.emergencyPhase==='landing-out'){student.emergencyPhase=null;student.navPath=null;student.navKey='';}}
+  const ground=floorHeightAt(p.x,p.z);if(p.y<=ground&&student.emergencyJumpVelocity<=0){p.y=ground;student.emergencyJumpVelocity=0;if(student.emergencyPhase==='jump-in'){student.emergencyPhase='approach';student.navPath=null;student.navKey='';student.navRetry=0;}else if(student.emergencyPhase==='jump-out'){student.emergencyPhase=drillActive?'safe':null;}else if(student.emergencyPhase==='landing-in'){student.emergencyPhase=drillActive?'safe':'jump-out';if(student.emergencyPhase==='jump-out')student.emergencyJumpVelocity=4.45;}else if(student.emergencyPhase==='landing-out'){student.emergencyPhase=null;student.navPath=null;student.navKey='';}}
   return student.lastMoveDistance>.001;
 }
 function startEmergencyDrill(){

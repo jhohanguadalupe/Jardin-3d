@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css?v=minimapa-superior-20261124" />
+  <link rel="stylesheet" href="./style.css?v=letras-resaltadas-20261125" />
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}
   </script>
@@ -26,40 +26,50 @@
             <path d="M0 0V9" stroke="#aeb5a5" stroke-width="2" opacity=".7" />
           </pattern>
           <pattern id="map-garden-dots" width="12" height="12" patternUnits="userSpaceOnUse">
-            <rect width="12" height="12" fill="#765a3d" />
+            <rect width="12" height="12" fill="#3f6542" />
             <circle cx="3" cy="3" r="2.2" fill="#91aa68" />
             <circle cx="9" cy="9" r="2.2" fill="#506c43" />
           </pattern>
         </defs>
         <rect class="map-ground" x="12" y="12" width="356" height="516" rx="18" />
         <rect class="map-boundary" x="23" y="23" width="334" height="494" rx="12" />
-        <path class="map-path" d="M184 502V455H195V424H184V346H198V271H184V227H195V132H184V96" />
+        <path class="map-path map-path-danger-route" d="M184 502V455H195V424H160V350H242V244H195V132H184V96" />
         <path class="map-path map-path-cross" d="M55 348H316M58 244H320M68 143H310" />
         <rect class="map-room" x="49" y="46" width="125" height="79" rx="5" />
         <rect class="map-room" x="205" y="46" width="125" height="79" rx="5" />
-        <text class="map-label" x="111" y="81">AULA 01</text>
-        <text class="map-label" x="267" y="81">AULA 02</text>
-        <rect class="map-room map-kitchen" x="49" y="153" width="91" height="67" rx="5" />
-        <path class="map-counter" d="M60 164H129V177H73V208H60Z" />
-        <text class="map-label map-label-small" x="94" y="198">COCINA</text>
+        <text class="map-label" x="111" y="81">AULA DE 4 AÑOS</text>
+        <text class="map-label" x="267" y="81">AULA DE 5 AÑOS</text>
         <rect class="map-roof" x="151" y="153" width="139" height="78" rx="6" />
         <rect x="151" y="153" width="139" height="78" rx="6" fill="url(#map-roof-lines)" />
         <text class="map-label map-label-light" x="220" y="188">JUEGOS</text>
         <text class="map-label map-label-light map-label-small" x="220" y="203">TECHADOS</text>
         <rect class="map-room map-bathroom" x="302" y="153" width="37" height="78" rx="4" />
         <text class="map-label map-label-small map-label-vertical" x="321" y="192" transform="rotate(-90 321 192)">BAÑOS</text>
-        <rect class="map-patio" x="51" y="261" width="277" height="76" rx="8" />
-        <text class="map-label" x="184" y="302">PATIO CENTRAL</text>
-        <rect class="map-room map-office" x="49" y="361" width="103" height="61" rx="5" />
-        <text class="map-label map-label-small" x="100" y="395">DIRECCIÓN</text>
+        <rect class="map-room map-kitchen" x="51" y="261" width="88" height="76" rx="5" />
+        <path class="map-counter" d="M61 271H129V284H74V326H61Z" />
+        <text class="map-label map-label-small" x="103" y="307">COCINA</text>
+        <rect class="map-danger" x="144" y="261" width="76" height="76" rx="5" />
+        <text class="map-label map-label-danger" x="182" y="279">AULA DE 3 AÑOS</text>
+        <text class="map-label map-label-danger" x="182" y="294">ZONA PELIGROSA</text>
+        <text class="map-label map-label-danger" x="182" y="309">(ESTANTE)</text>
+        <rect x="224" y="261" width="36" height="76" rx="3" fill="#cbbd9d" />
+        <rect class="map-room map-office" x="264" y="261" width="64" height="76" rx="5" />
+        <text class="map-label map-label-small" x="296" y="301">DIRECCIÓN</text>
+        <rect class="map-patio" x="51" y="359" width="112" height="64" rx="7" />
+        <text class="map-label" x="107" y="391">COMEDOR</text>
         <rect class="map-garden" x="249" y="356" width="78" height="72" rx="6" />
         <rect x="256" y="363" width="64" height="58" rx="4" fill="url(#map-garden-dots)" />
-        <text class="map-label map-label-small" x="288" y="448">ZONA SEGURA</text>
+        <rect class="map-safe-tint" x="256" y="363" width="64" height="58" rx="4" />
+        <text class="map-label map-label-safe" x="288" y="392">ZONA SEGURA</text>
         <rect class="map-room map-entry" x="82" y="451" width="216" height="47" rx="5" />
         <path class="map-entry-door" d="M176 498V480H204V498" />
         <text class="map-label map-label-light" x="190" y="473">ENTRADA</text>
         <path class="map-north" d="M340 86V48M332 57L340 48L348 57" />
         <text class="map-north-label" x="340" y="40">N</text>
+        <g class="map-hazard" aria-label="Riesgo 1: estante alto en Aula de 3 años"><circle cx="210" cy="326" r="8" /><text x="210" y="326">1</text></g>
+        <g class="map-hazard" aria-label="Riesgo 2: cocina caliente"><circle cx="130" cy="269" r="8" /><text x="130" y="269">2</text></g>
+        <g class="map-hazard" aria-label="Riesgo 3: mobiliario del comedor"><circle cx="153" cy="368" r="8" /><text x="153" y="368">3</text></g>
+        <g class="map-hazard" aria-label="Riesgo 4: columnas junto a juegos techados"><circle cx="282" cy="222" r="8" /><text x="282" y="222">4</text></g>
       </symbol>
     </svg>
     <header class="topbar">
@@ -113,19 +123,75 @@
               <li><span class="legend-swatch legend-kitchen"></span><span>Cocina y Dirección</span></li>
               <li><span class="legend-swatch legend-patio"></span><span>Patio y pasadizos</span></li>
               <li><span class="legend-swatch legend-covered"></span><span>Juegos techados</span></li>
-              <li><span class="legend-swatch legend-garden"></span><span>Chacra / zona segura</span></li>
+              <li><span class="legend-swatch legend-garden"></span><span>Zona segura · sembrío</span></li>
+              <li><span class="legend-swatch legend-danger"></span><span>Zona peligrosa · Aula 3 años (Estante)</span></li>
+              <li><span class="legend-swatch legend-risk" aria-hidden="true">!</span><span>Riesgos potenciales (1–4)</span></li>
               <li><span class="legend-swatch legend-bathroom"></span><span>Baños</span></li>
             </ul>
             <p class="map-legend-note"><span class="legend-north">↑ N</span> El ingreso principal está en la parte inferior del plano.</p>
+            <button id="map-safety-open" class="map-safety-open" type="button" aria-haspopup="dialog" aria-controls="map-safety-layer">
+              <span class="safety-open-icon" aria-hidden="true">✳</span>
+              <span><strong>Riesgos, medidas y fuentes</strong><small>Ver lámina de prevención</small></span>
+              <span class="safety-open-arrow" aria-hidden="true">↗</span>
+            </button>
           </aside>
         </div>
       </section>
+      <div id="map-safety-layer" class="map-safety-layer" aria-hidden="true">
+        <section class="map-safety-dialog" role="dialog" aria-modal="true" aria-labelledby="map-safety-title" tabindex="-1">
+          <header class="map-safety-header">
+            <div class="map-safety-heading">
+              <span class="map-safety-kicker"><i></i> GUÍA VISUAL · SEGURIDAD ESCOLAR</span>
+              <h2 id="map-safety-title">Nos cuidamos en comunidad</h2>
+              <p>Riesgos del modelo, acciones de prevención y fuentes consultadas.</p>
+            </div>
+            <div class="map-safety-header-mark" aria-hidden="true">S<span>·</span></div>
+            <button id="map-safety-close" class="map-close map-safety-close" type="button" aria-label="Cerrar lámina de prevención">×</button>
+          </header>
+          <div class="map-safety-board">
+            <section class="safety-card safety-risks">
+              <div class="safety-card-heading"><span class="safety-number">01</span><div><span class="safety-overline">OBSERVAR</span><h3>Riesgos potenciales</h3></div></div>
+              <div class="safety-risk-grid">
+                <article class="safety-risk-item"><span>01</span><div><strong>Aula de 3 años</strong><p>El estante alto podría volcarse si no está fijado.</p></div></article>
+                <article class="safety-risk-item"><span>02</span><div><strong>Cocina</strong><p>Quemadores y superficies calientes pueden causar quemaduras o un incendio.</p></div></article>
+                <article class="safety-risk-item"><span>03</span><div><strong>Comedor</strong><p>Mesas y sillas pueden obstaculizar la evacuación si bloquean los pasadizos.</p></div></article>
+                <article class="safety-risk-item"><span>04</span><div><strong>Juegos techados</strong><p>Las columnas junto al paso pueden causar golpes si se corre entre ellas.</p></div></article>
+              </div>
+            </section>
+            <section class="safety-card safety-measures">
+              <div class="safety-card-heading"><span class="safety-number">02</span><div><span class="safety-overline">PREPARARNOS</span><h3>Medidas de prevención</h3></div></div>
+              <ol class="safety-measure-list">
+                <li><span>1</span><p>Fijar estantes y muebles altos; guardar lo pesado en niveles bajos.</p></li>
+                <li><span>2</span><p>Mantener puertas, rutas y pasadizos libres de mesas, sillas y cajas.</p></li>
+                <li><span>3</span><p>Controlar el acceso a la cocina; solo adultos usan quemadores y objetos calientes.</p></li>
+                <li><span>4</span><p>Señalizar las rutas y columnas; dejar libre el paso junto a rampas y salidas.</p></li>
+                <li><span>5</span><p>Practicar simulacros, contar a las niñas y niños al llegar y revisar el kit de emergencia.</p></li>
+              </ol>
+            </section>
+            <section class="safety-card safety-kids">
+              <div class="safety-card-heading"><span class="safety-number">03</span><div><span class="safety-overline">PARA NIÑAS Y NIÑOS</span><h3>Dos ideas fáciles de recordar</h3></div></div>
+              <div class="safety-kid-tip"><span aria-hidden="true">✦</span><p>Practiquen: <strong>“agáchate, cúbrete y sujétate”</strong>, lejos de ventanas y estantes.</p></div>
+              <div class="safety-kid-tip"><span aria-hidden="true">➜</span><p>Evacúen con su maestra, de la mano y caminando en fila; sin correr ni empujar.</p></div>
+            </section>
+            <section class="safety-card safety-sources">
+              <div class="safety-card-heading"><span class="safety-number">04</span><div><span class="safety-overline">SEGUIR APRENDIENDO</span><h3>Fuentes oficiales</h3></div></div>
+              <ul class="safety-source-list">
+                <li><a href="https://www.gob.pe/1053-instituto-nacional-de-defensa-civil-que-hacer-en-caso-de-sismo" target="_blank" rel="noopener"><span>INDECI</span><strong>¿Qué hacer en caso de sismo?</strong><i aria-hidden="true">↗</i></a></li>
+                <li><a href="https://repositorio.minedu.gob.pe/bitstream/handle/20.500.12799/7876/Gu%C3%ADa%20de%20Orientaciones%20para%20la%20conformaci%C3%B3n%20de%20la%20Brigada%20de%20educaci%C3%B3n%20ambiental%20y%20gesti%C3%B3n%20del%20riesgo%20de%20desastres.pdf" target="_blank" rel="noopener"><span>MINEDU</span><strong>Guía de brigadas y gestión del riesgo</strong><i aria-hidden="true">↗</i></a></li>
+                <li><a href="https://observatorio.minedu.gob.pe/almacenamiento/2024/12/Gu%C3%ADa-de-Servicio-y-protocolos-2024-versi%C3%B3n-final.pdf" target="_blank" rel="noopener"><span>MINEDU</span><strong>Guía de servicio y protocolos para Educación Inicial</strong><i aria-hidden="true">↗</i></a></li>
+              </ul>
+              <p class="safety-source-date">Fuentes consultadas el 25 de noviembre de 2026.</p>
+            </section>
+          </div>
+          <footer class="map-safety-footer"><span>✳</span><p>Los riesgos se basan en la maqueta y deben revisarse en el colegio. La zona segura es una propuesta que debe validar el equipo responsable de gestión del riesgo y Defensa Civil.</p><span class="safety-footer-tag">I.E. N.° 007 · BELLAVISTA</span></footer>
+        </section>
+      </div>
     </div>
     <div id="emergency-overlay" class="emergency-overlay" role="status" aria-live="assertive" hidden><span class="emergency-beacon" aria-hidden="true">!</span><span>SIMULACRO DE EMERGENCIA · DIRÍJANSE A ZONA SEGURA</span></div>
     <div class="bottom-bar"><div class="hint"><span class="mouse-icon"><i></i></span><span>ARRASTRA PARA MIRAR <b>·</b> <span id="movement-hint">WASD PARA CAMINAR</span> <b>·</b> RUEDA PARA ALEJARTE</span></div></div>
     <div id="loading" class="loading"><span class="loader-mark">✳</span><span>PREPARANDO EL JARDÍN</span><div class="loading-track"><i></i></div></div>
     <div id="toast" class="toast" aria-live="polite"></div>
   </main>
-  <script type="module" src="./src/main.js?v=puerta-almacen-hueco-pasillo-20261124"></script>
+  <script type="module" src="./src/main.js?v=navegacion-estable-20261125"></script>
 </body>
 </html>
