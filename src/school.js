@@ -121,7 +121,7 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   box(scene,-9.77,1.12,storageDoorZ,.12,2.24,.22,blue);
   box(scene,-8.73,1.12,storageDoorZ,.12,2.24,.22,blue);
   box(scene,storageDoorCenterX,2.24,storageDoorZ,1.16,.16,.24,blue);
-  const storageDoorLeaf=new THREE.Group();storageDoorLeaf.position.set(storageDoorLeftX,.06,storageDoorZ);storageDoorLeaf.rotation.y=Math.PI/2;scene.add(storageDoorLeaf);
+  const storageDoorLeaf=new THREE.Group();storageDoorLeaf.position.set(storageDoorLeftX,.06,storageDoorZ);storageDoorLeaf.rotation.y=Math.PI/9;scene.add(storageDoorLeaf);
   box(storageDoorLeaf,.46,1.08,0,.92,2.08,.12,blue);
   box(storageDoorLeaf,.82,1.08,.08,.06,.08,.04,mat('#c6a56a',.35,{metalness:.65}));
   storageDoorLeaf.traverse(object=>{if(object.isMesh)object.userData.walkSolid=false;});
