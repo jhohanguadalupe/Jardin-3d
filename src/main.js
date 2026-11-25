@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { buildSchool } from './school.js?v=pared-vertical-completa-20261124';
+import { buildSchool } from './school.js?v=pared-vertical-sillas-20261124';
 import { createChildCharacter } from './child.js?v=recorridos-diferentes-20261124';
 
 const mount=document.querySelector('#scene');
