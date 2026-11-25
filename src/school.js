@@ -209,15 +209,7 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
     for(const x of [-7.35,-3.35,.65])box(scene,x,4.23,z,.12,.62,.12,canopySteel);
     for(const [x,lean] of [[-8.35,1],[-6.35,-1],[-4.35,1],[-2.35,-1],[-.35,1],[1.65,-1]]){const brace=box(scene,x,4.32,z,.1,.62,.1,canopySteel);brace.rotation.z=lean*.45;}
   }
-  // A raised soil bed with low seedlings sits beside the covered concrete patio.
-  floor(3.95,-5.05,5.1,8.8,soil,.18);
-  for(const x of [1.35,6.55])box(scene,x,.28,-5.05,.18,.35,8.95,cap);
-  for(const z of [-9.45,-.65])box(scene,3.95,.28,z,5.2,.35,.18,cap);
-  for(let row=0;row<4;row++)for(let col=0;col<6;col++){
-    const x=1.85+col*.78,z=-8.75+row*2.1;
-    cylinder(scene,x,.42,z,.025,.035,.42,mat('#547342'),7);
-    for(let leaf=0;leaf<3;leaf++){const a=leaf*Math.PI*2/3,seedling=new THREE.Mesh(new THREE.SphereGeometry(.12,7,5),mat(leaf%2?'#719250':'#86a15c',.94));seedling.scale.set(1.3,.42,.55);seedling.position.set(x+Math.cos(a)*.11,.55+leaf*.012,z+Math.sin(a)*.11);seedling.userData.walkSolid=true;scene.add(seedling);}
-  }
+  // Remove the long planting bed beside the covered patio; the paved floor remains clear.
   floor(7.7,-5.65,2.4,8.3,tile,.2);addWall(6.5,-9.8,8.9,-9.8,3.53);addWall(8.9,-9.8,8.9,-1.5,3.53);addWall(6.5,-9.8,6.5,-1.5,3.53);
   for(let z=-8.2;z<=-1.5;z+=1.65){addWall(6.5,z,8.9,z,2.1,.14,stucco);door(6.5,z-.3,Math.PI/2,-Math.PI/2);box(scene,8.35,.39,z-.85,.5,.48,.64,mat('#f3f0e8',.3));box(scene,8.35,.17,z-.85,.62,.12,.72,cap);}
   // Rear classroom wing with chamfered corridor and a small garden terrace.
