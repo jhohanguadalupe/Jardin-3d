@@ -19,7 +19,7 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
     const seam=box(scene,x,.205,z,1.24,.025,.025,mat('#aaa18e'),false,true);seam.rotation.y=(Math.floor((z+18.2)/1.15)%2)*.04;
   }
   const campusWall=wall;
-  const storageDoorCenterX=-7.95,storageDoorCenterZ=10.575,storageDoorHalfWidth=.58;
+  const storageDoorCenterX=-2.84,storageDoorCenterZ=10.575,storageDoorHalfWidth=.58;
   const storageDoorStartX=storageDoorCenterX-storageDoorHalfWidth,storageDoorEndX=storageDoorCenterX+storageDoorHalfWidth;
   addWall(-8.8,-19,8.8,-19,2.9,.26,campusWall);addWall(-8.8,-19,-9.597,2.75,2.65,.26,campusWall);addWall(-9.597,2.75,-10.069,15.64,3.53,.26,campusWall);addWall(-10.069,15.64,-10.2,19.2,3.53,.26,campusWall);addWall(8.8,-19,9.4,17.5,3.53,.26,campusWall);
   // The street-facing school wall is continuous except for the main entrance.
@@ -119,7 +119,7 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   addWall(-8.6,10.575,storageDoorStartX,10.575,3.53,.18,wall);
   addWall(storageDoorEndX,10.575,-2.15,10.575,3.53,.18,wall);
   addWall(-2.15,10.575,-2.15,15,3.53,.18,wall);
-  // Put the storage door in the horizontal wall at the marked girl-side opening.
+  // Put the storage door at the right end of the horizontal wall, beside the girls' corridor.
   const storageDoorFrame=new THREE.Group();storageDoorFrame.position.set(storageDoorCenterX,0,storageDoorCenterZ);scene.add(storageDoorFrame);
   box(storageDoorFrame,-.52,1.12,0,.12,2.24,.22,blue);box(storageDoorFrame,.52,1.12,0,.12,2.24,.22,blue);box(storageDoorFrame,0,2.24,0,1.16,.16,.24,blue);
   const storageDoorHinge=new THREE.Group();storageDoorHinge.position.set(storageDoorStartX,.06,storageDoorCenterZ);storageDoorHinge.rotation.y=-Math.PI/2;scene.add(storageDoorHinge);
