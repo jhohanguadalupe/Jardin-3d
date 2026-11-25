@@ -114,9 +114,9 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   }
   // Reverse-L dining-room partition: horizontal edge by the chair row and
   // vertical edge on the right side of the table group, viewed from the reference angle.
-  addWall(-2.18,15,9.4,15,3.53,.18,wall);
-  // Extend the vertical leg upward beside the chair column, keeping 4 cm of clearance.
-  addWall(-2.18,8.9,-2.18,15,3.53,.18,wall);
+  addWall(-2.15,15,9.4,15,3.53,.18,wall);
+  // The other leg rises from the same corner beside the chair column, with 7 cm clearance.
+  addWall(-2.15,8.9,-2.15,15,3.53,.18,wall);
   // Close the former office entrance in the entry-facing wall.
   addWall(-10.2,15.72,.7,15.72,3.55,.18,wall);
   addWall(4.7,15.72,9.4,15.72,3.55,.18,wall);
