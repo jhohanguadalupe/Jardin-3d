@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { buildSchool } from './school.js?v=puerta-almacen-hueco-marcado-20261124';
+import { buildSchool } from './school.js?v=puerta-almacen-hueco-tatiana-20261124';
 import { createChildCharacter } from './child.js?v=recorridos-diferentes-20261124';
 
 const mount=document.querySelector('#scene');
