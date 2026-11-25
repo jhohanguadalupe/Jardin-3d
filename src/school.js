@@ -220,7 +220,7 @@ export function buildSchool({scene, mat, box, cylinder, grass, stone, wood, trim
   // Mirror the corridor-facing door at the same longitudinal position in Aula 02.
   addWall(1.8,-19,1.8,-16.7);addWall(1.8,-15.7,1.8,-14.2);door(1.8,-16.7,-Math.PI/2,Math.PI/3);addWall(1.8,-16.7,1.8,-15.7,1.31,.18,wall,2.22);
   addWall(1.8,-14.2,4.4,-11.6);addWall(4.4,-11.6,7.6,-11.6);door(7.6,-11.6,Math.PI,-Math.PI/2);addWall(7.6,-11.6,7.6,-19);addWall(7.6,-19,1.8,-19);
-  floor(-2.5,-9.8,7.2,3.2,lawn,.18);addTree(-4.4,-9.8,.82);
+   floor(-2.5,-9.8,7.2,3.2,lawn,.18);
   addClassroomFurniture(-4.65,-15.2,3,3);addClassroomFurniture(4.65,-15.2,3,3);
   classroomBoard(-4.65,-18.84);classroomBoard(4.65,-18.84);
   // Emergency route markings continue from the entry ramp into the school.
